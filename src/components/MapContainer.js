@@ -1,10 +1,10 @@
 import React from "react";
 import { Map, GoogleApiWrapper } from "google-maps-react";
-import {GOOGLE_MAP_KEY} from '../secret'
+import { GOOGLE_MAP_KEY } from '../secret'
 
 const mapStyles = {
-  width: "50%",
-  height: "50%",
+  width: "68%",
+  height: "100%",
 };
 class MapContainer extends React.Component {
   render() {

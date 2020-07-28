@@ -1,20 +1,16 @@
 import React from "react";
 import MapContainer from "./components/MapContainer";
+import Form from './components/Form'
 
-// import "./App.css";
 
 function App() {
   return (
-    <div className="App">
-      {/* <header className="App-header"> */}
-      {/* </header> */}
-      <div>
+    <div className="container">
+      {/* <div className="map">
         <MapContainer />
-      </div>
-      <div>
-        <div>
-          <p>Component Form</p>
-        </div>
+      </div> */}
+      <div className="form">
+        <Form />
         <div>
           <p>Component Result</p>
         </div>
