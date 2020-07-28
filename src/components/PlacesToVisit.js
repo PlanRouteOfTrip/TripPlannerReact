@@ -1,6 +1,6 @@
 import React from "react";
 import {removePlace} from "../store"
-import {connect, Provider} from 'react-redux'
+import {connect} from 'react-redux'
 
 const PlacesToVisit = (props) => {
  const places = props.places;

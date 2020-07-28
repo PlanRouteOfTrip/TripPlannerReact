@@ -1,7 +1,7 @@
 import React from "react";
 import MapContainer from "./components/MapContainer";
 import TripResults from "./components/TripResults"
-import ConnectedPlacesToVisit from "./components/PlacesToVisit"
+import PlacesToVisit from "./components/PlacesToVisit"
 import Form from './components/Form'
 
 function App() {
@@ -14,7 +14,7 @@ function App() {
         <Form />
         </div>
         <div>
-          <ConnectedPlacesToVisit />
+          <PlacesToVisit />
         </div>
         <div>
           <TripResults />
