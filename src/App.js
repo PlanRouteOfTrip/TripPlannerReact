@@ -1,7 +1,7 @@
 import React from "react";
 import MapContainer from "./components/MapContainer";
-
-// import "./App.css";
+import TripResults from "./components/TripResults"
+import ConnectedPlacesToVisit from "./components/PlacesToVisit"
 
 function App() {
   return (
@@ -9,14 +9,14 @@ function App() {
       {/* <header className="App-header"> */}
       {/* </header> */}
       <div>
-        <MapContainer />
+        {/* <MapContainer /> */}
       </div>
       <div>
         <div>
-          <p>Component Form</p>
+          <ConnectedPlacesToVisit />
         </div>
         <div>
-          <p>Component Result</p>
+          <TripResults />
         </div>
       </div>
     </div>
