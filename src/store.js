@@ -31,11 +31,6 @@ export const addPlace = (place, map) => {
   return async (dispatch) => {
     try {
       let newFoundPlace = await getFoundPlace(place, map);
-      //   let newPlace = `${place} - ${newFoundPlace}`;
-      //   let newPlace = `${newFoundPlace.name} - ${newFoundPlace.formatted_address}`;
-      //   console.log("newPlace from add place thunk", newPlace);
-      //   console.log("newPlace from add place thunk", newFoundPlace);
-      //   dispatch(addedPlace(newPlace));
       dispatch(addedPlace(newFoundPlace));
     } catch (error) {
       console.log("Error with finding place", error);
@@ -59,9 +54,7 @@ function getFoundPlace(place, map) {
           service,
           infowindow
         );
-        // console.log("founded place", foundPoint);
-        //   let foundPoint = await results[0]
-        // console.log("found address", foundPoint.formatted_address);
+        console.log("found place", foundPoint);
         map.setCenter(results[0].geometry.location);
         resolve(foundPoint);
       }
@@ -151,10 +144,6 @@ const reducer = (state = initialState, action) => {
       });
       return { ...state, placesToVisit: newPlaces };
     case ADD_PLACE:
-      //   console.log("action.place", action.place);
-      //   console.log("google", google);
-      //   let newPlace = { name: action.place };
-      //   return { ...state, placesToVisit: [...state.placesToVisit, newPlace] };
       return {
         ...state,
         placesToVisit: [...state.placesToVisit, action.place],

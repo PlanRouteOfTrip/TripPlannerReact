@@ -8,15 +8,14 @@ const PlacesToVisit = (props) => {
 
   return (
     <div>
-      <h1>Places to visit on this trip:</h1>
       {places.map((place) => {
         return (
           //TBD: change key to place ID later
           <div key={place.name}>
-            <b>
+                <p>
               {place.name} - {place.formatted_address}{" "}
-            </b>
             <button onClick={() => removePlace(place.name)}>X</button>
+            </p>
           </div>
         );
       })}
