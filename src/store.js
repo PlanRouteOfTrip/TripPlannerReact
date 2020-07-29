@@ -4,8 +4,8 @@ import thunk from "redux-thunk";
 const FETCH_PLACES = "FETCH_PLACES";
 const REMOVE_PLACE = "REMOVE_PLACE";
 const ADD_PLACE = "ADD_PLACE";
-
-const google = window.google;
+const ADD_START = "ADD_START";
+const ADD_FINISH = "ADD_FINISH";
 
 export const fetchPlaces = () => {
   return {
@@ -32,9 +32,9 @@ export const addPlace = (place, map) => {
     try {
       let newFoundPlace = await getFoundPlace(place, map);
       //   let newPlace = `${place} - ${newFoundPlace}`;
-      let newPlace = `${newFoundPlace.name} - ${newFoundPlace.formatted_address}`;
-      console.log("newPlace from add place thunk", newPlace);
-      console.log("newPlace from add place thunk", newFoundPlace);
+      //   let newPlace = `${newFoundPlace.name} - ${newFoundPlace.formatted_address}`;
+      //   console.log("newPlace from add place thunk", newPlace);
+      //   console.log("newPlace from add place thunk", newFoundPlace);
       //   dispatch(addedPlace(newPlace));
       dispatch(addedPlace(newFoundPlace));
     } catch (error) {
@@ -59,9 +59,9 @@ function getFoundPlace(place, map) {
           service,
           infowindow
         );
-        console.log("founded place", foundPoint);
+        // console.log("founded place", foundPoint);
         //   let foundPoint = await results[0]
-        console.log("found address", foundPoint.formatted_address);
+        // console.log("found address", foundPoint.formatted_address);
         map.setCenter(results[0].geometry.location);
         resolve(foundPoint);
       }
@@ -115,11 +115,28 @@ function getGoalPlace(placeId, service) {
   });
 }
 
+export const addStart = (place, time) => {
+  return {
+    type: ADD_START,
+    place,
+    time,
+  };
+};
+
+export const addFinish = (place, time) => {
+  return {
+    type: ADD_FINISH,
+    place,
+    time,
+  };
+};
+
 const initialState = {
   startPoint: {},
   startTime: null,
   endPoint: {},
-  placesToVisit: [{ name: "place1" }, { name: "place2" }],
+  endTime: null,
+  placesToVisit: [],
   setOfThreeBest: [],
 };
 
@@ -134,7 +151,7 @@ const reducer = (state = initialState, action) => {
       });
       return { ...state, placesToVisit: newPlaces };
     case ADD_PLACE:
-      console.log("action.place", action.place);
+      //   console.log("action.place", action.place);
       //   console.log("google", google);
       //   let newPlace = { name: action.place };
       //   return { ...state, placesToVisit: [...state.placesToVisit, newPlace] };
@@ -142,6 +159,10 @@ const reducer = (state = initialState, action) => {
         ...state,
         placesToVisit: [...state.placesToVisit, action.place],
       };
+    case ADD_START:
+      return { ...state, startPoint: action.place, startTime: action.time };
+    case ADD_FINISH:
+      return { ...state, endPoint: action.place, endTime: action.time };
     default:
       return state;
   }
