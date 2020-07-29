@@ -1,8 +1,11 @@
-import {createStore} from 'redux'
+import {createStore, applyMiddleware} from 'redux'
+import thunk from 'redux-thunk'
 
 const FETCH_PLACES = "FETCH_PLACES"
 const REMOVE_PLACE = "REMOVE_PLACE"
 const ADD_PLACE = "ADD_PLACE"
+
+const google = window.google
 
 export const fetchPlaces = () => {
     return {
@@ -18,12 +21,45 @@ export const removePlace = (name) => {
 }
 
 
-export const addPlace = (place) => {
+const addedPlace = (place) => {
     return {
         type: ADD_PLACE,
         place
     }
 }
+
+export const addPlace = (place) => {
+    return async (dispatch) => {
+        try {
+            let newFoundPlace = await getFoundPlace(place)
+            let newPlace = `${place} - ${newFoundPlace}`
+            console.log("newPlace from add place thunk", newPlace)
+            dispatch(addedPlace(newPlace))
+        } catch (error) {
+            console.log('Error with finding place', error)
+        }
+    }
+}
+
+function getFoundPlace(place) {
+    var request = {
+      query: place,
+      fields: ["name", "geometry", "formatted_address", "place_id"],
+    };
+    return new Promise((resolve, reject) => {
+      let service = new window.google.maps.places.PlacesService(map);
+      service.findPlaceFromQuery(request, async function (results, status) {
+        if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+        //   let foundPoint = await createMarker(results[0]);
+          let foundPoint = await results[0]
+            console.log("found address", foundPoint.formatted_address)
+        //   map.setCenter(results[0].geometry.location);
+          resolve(foundPoint.formatted_address);
+        }
+      });
+    });
+  }
+
 
 // export const addPlaceThunk = place => {
 //     console.log("place from thunk", place)
@@ -106,6 +142,7 @@ const reducer = (state = initialState, action) => {
             return {...state, placesToVisit: newPlaces}
         case ADD_PLACE:
             console.log("action.place", action.place)
+            console.log("google", google)
             let newPlace = {name: action.place}
             return {...state, placesToVisit: [...state.placesToVisit, newPlace]}
         default:
@@ -113,6 +150,6 @@ const reducer = (state = initialState, action) => {
     }
 }
 
-const store = createStore(reducer)
+const store = createStore(reducer, applyMiddleware(thunk))
 
 export default store

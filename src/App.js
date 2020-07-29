@@ -10,11 +10,11 @@ function App() {
   return (
     <div className="container">
       <MapContainer />
-      {/* <div className="form">
+      <div className="form">
         <Form />
         <PlacesToVisit />
-        <TripResults />
-      </div> */}
+        {/* <TripResults /> */}
+      </div>
     </div>
   );
 }
