@@ -6,19 +6,19 @@ import React from "react";
 //   width: "68%",
 //   height: "100%",
 // };
-export default class MapContainer extends React.Component {
-  componentDidMount() {
-    const map = new window.google.maps.Map(document.getElementById("map"), {
-      center: {lat: 40.5941732, lng: -73.9443477},
-      zoom: 10
-    })
-  }
+// export default class MapContainer extends React.Component {
+  // componentDidMount() {
+  //   const map = new window.google.maps.Map(document.getElementById("map"), {
+  //     center: {lat: 40.5941732, lng: -73.9443477},
+  //     zoom: 10
+  //   })
+  // }
 
-  render() {
-    return(
-      <div style={{ width: 200 , height: 200 }} id="map"></div>
-    ) 
-  }
+  // render() {
+  //   return(
+  //     <div style={{ width: 400 , height: 400 }} id="map"></div>
+  //   ) 
+  // }
 
 
   // render() {
@@ -34,7 +34,7 @@ export default class MapContainer extends React.Component {
   //     />
   //   );
   // }
-}
+// }
 
 // export default GoogleApiWrapper({
 //   apiKey: GOOGLE_MAP_KEY,
