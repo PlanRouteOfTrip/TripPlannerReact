@@ -3,6 +3,7 @@ import { addPlace, addPlaceThunk } from "../store";
 import { connect } from "react-redux";
 // import {DateTimePicker} from 'react-widgets'
 // import DateTimePicker from 'react-widgets/lib/DateTimePicker'
+import PlacesToVisit from "./PlacesToVisit"
 
 
 class Form extends React.Component {
@@ -86,6 +87,7 @@ class Form extends React.Component {
         </form>
         <form className="locations">
           <h3>3. Places to visit:</h3>
+          <PlacesToVisit />
           <input
             type="text"
             name="curPoint"
@@ -108,7 +110,7 @@ class Form extends React.Component {
               e.preventDefault();
               this.props.addPlace(this.state.curPoint, this.props.map);
               //TBD: clear the form, show placeholder
-              // this.setState({curPoint: ""})
+              this.setState({curPoint: ""})
             }}
           >
             Add place to the list
