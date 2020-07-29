@@ -133,11 +133,9 @@ class Form extends React.Component {
             placeholder="Time you plan to spend there in minutes"
             onChange={e => this.setState({curMinsToSpend: e.target.value})}
           /><br /> */}
-          <button type="submit" id="addPoint" onClick={async (e) => {
+          <button type="submit" id="addPoint" onClick={(e) => {
               e.preventDefault()
-              let place = await this.addPoint(this.state.curPoint)
-
-              this.props.addPlace(place)
+              this.props.addPlace(this.state.curPoint)
               //TBD: clear the form, show placeholder
               }}>
             Add place to the list
