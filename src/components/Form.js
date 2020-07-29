@@ -1,22 +1,17 @@
 import React from "react";
 import { addPlace, addFinish, addStart } from "../store";
 import { connect } from "react-redux";
-import {DateTimePicker} from 'react-widgets'
-// import DateTimePicker from 'react-widgets/lib/DateTimePicker'
-// import DateTimePicker from 'react-datetime-picker'
-import PlacesToVisit from "./PlacesToVisit"
-
+import PlacesToVisit from "./PlacesToVisit";
+import TextField from "@material-ui/core/TextField";
 
 class Form extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       startPoint: "",
-      // startDay: new Date(),
-      startTime: new Date(),
+      startTime: null,
       endPoint: "",
-      // endDay: new Date(),
-      endTime: new Date(),
+      endTime: null,
       curPoint: "",
       curMinsToSpend: 0,
     };
@@ -37,24 +32,26 @@ class Form extends React.Component {
           />
           <br />
           <div id="timeDate">
-            {/* <input
-              type="date"
-              name="startDate"
-              value={this.state.startDay}
-              onChange={(e) => this.setState({ startDay: e.target.value })}
+            <TextField
+              id="datetime-start"
+              type="datetime-local"
+              InputLabelProps={{
+                shrink: true,
+              }}
             />
-            <input
-              type="time"
-              name="startTime"
-              value={this.state.startTime}
-              onChange={(e) => this.setState({ endDay: e.target.value })}
-            /> */}
-            {/* <DateTimePicker value={this.state.startTime} onChange={e => this.setState({startTime: e.target.value})} /> */}
           </div>
-          <button type="submit" id="addStart" onClick={(e) => {
-            e.preventDefault()
-            console.log(this.state)
-            this.props.addStart(this.state.startPoint, this.state.startTime)}}> Set Start</button>
+          <button
+            type="submit"
+            id="addStart"
+            onClick={(e) => {
+              e.preventDefault();
+              console.log(this.state);
+              this.props.addStart(this.state.startPoint, this.state.startTime);
+            }}
+          >
+            {" "}
+            Set Start
+          </button>
         </form>
         <form className="finish">
           <h3>2. Final Destination: </h3>
@@ -67,24 +64,26 @@ class Form extends React.Component {
           />
           <br />
           <div id="timeDate">
-            {/* <input
-              type="date"
-              name="endDay"
-              value={this.state.endDay}
-              onChange={(e) => this.setState({ endDay: e.target.value })}
+            <TextField
+              id="datetime-end"
+              type="datetime-local"
+              InputLabelProps={{
+                shrink: true,
+              }}
             />
-            <input
-              type="time"
-              name="endTime"
-              value={this.state.endTime}
-              onChange={(e) => this.setState({ endTime: e.target.value })}
-            /> */}
-            {/* <DateTimePicker value={this.state.endTime} onChange={e => this.setState({endTime: e.target.value})} /> */}
           </div>
-          <button type="submit" id="addFinish" onClick={(e) => {
-            e.preventDefault()
-            console.log(this.state)
-            this.props.addFinish(this.state.endPoint,this.state.endTime)}}> Set Finish </button>
+          <button
+            type="submit"
+            id="addFinish"
+            onClick={(e) => {
+              e.preventDefault();
+              console.log(this.state);
+              this.props.addFinish(this.state.endPoint, this.state.endTime);
+            }}
+          >
+            {" "}
+            Set Finish{" "}
+          </button>
         </form>
         <form className="locations">
           <h3>3. Places to visit:</h3>
@@ -93,6 +92,7 @@ class Form extends React.Component {
             type="text"
             name="curPoint"
             placeholder="Name or Address of place"
+            value={this.state.curPoint}
             onChange={(e) => {
               this.setState({ curPoint: e.target.value });
             }}
@@ -110,17 +110,13 @@ class Form extends React.Component {
             onClick={(e) => {
               e.preventDefault();
               this.props.addPlace(this.state.curPoint, this.props.map);
-              //TBD: clear the form, show placeholder
-              this.setState({curPoint: ""})
+              this.setState({ curPoint: "" });
             }}
           >
             Add place to the list
           </button>
         </form>
-        {/* <div>
-          <h5>All places to visit on this trip:</h5>
-          <ul id="listAllPlaces"></ul>
-        </div>
+        {/* 
         <button type="button" id="findTrips">
           4. Find best options of the trip
         </button>
@@ -140,7 +136,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   addPlace: (name, map) => dispatch(addPlace(name, map)),
   addStart: (place, time) => dispatch(addStart(place, time)),
-  addFinish: (place, time) => dispatch(addFinish(place, time))
+  addFinish: (place, time) => dispatch(addFinish(place, time)),
 });
 
 const ConnectedForm = connect(mapStateToProps, mapDispatchToProps)(Form);
