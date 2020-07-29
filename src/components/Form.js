@@ -59,9 +59,9 @@ class Form extends React.Component {
         fields: ["name", "geometry", "formatted_address", "place_id"],
     };
         return new Promise((resolve, reject) => {
-            service = new google.maps.places.PlacesService(map);
+            var service = new window.google.maps.places.PlacesService(map);
             service.findPlaceFromQuery(request, async function (results, status) {
-                if (status === google.maps.places.PlacesServiceStatus.OK) {
+                if (status === window.google.maps.places.PlacesServiceStatus.OK) {
                     let foundPoint = await createMarker(results[0]);
                      map.setCenter(results[0].geometry.location);
                     resolve(foundPoint);

@@ -68,23 +68,23 @@ export const addPlace = (place) => {
 //     }
 // }
 
-function getFoundPlace(place) {
-    console.log("place from google call", place)
-        var request = {
-        query: place,
-        fields: ["name", "geometry", "formatted_address", "place_id"],
-    };
-        return new Promise((resolve, reject) => {
-            service = new google.maps.places.PlacesService(map);
-            service.findPlaceFromQuery(request, async function (results, status) {
-                if (status === google.maps.places.PlacesServiceStatus.OK) {
-                    let foundPoint = await createMarker(results[0]);
-                     map.setCenter(results[0].geometry.location);
-                    resolve(foundPoint);
-                }
-            });
-        });
-}
+// function getFoundPlace(place) {
+//     console.log("place from google call", place)
+//         var request = {
+//         query: place,
+//         fields: ["name", "geometry", "formatted_address", "place_id"],
+//     };
+//         return new Promise((resolve, reject) => {
+//             service = new google.maps.places.PlacesService(map);
+//             service.findPlaceFromQuery(request, async function (results, status) {
+//                 if (status === google.maps.places.PlacesServiceStatus.OK) {
+//                     let foundPoint = await createMarker(results[0]);
+//                      map.setCenter(results[0].geometry.location);
+//                     resolve(foundPoint);
+//                 }
+//             });
+//         });
+// }
 
 const initialState = {
     startPoint: {},

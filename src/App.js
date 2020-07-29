@@ -1,32 +1,26 @@
 import React from "react";
 import MapContainer from "./components/MapContainer";
-import TripResults from "./components/TripResults"
-import PlacesToVisit from "./components/PlacesToVisit"
-import Form from './components/Form'
-import { Map, GoogleApiWrapper } from "google-maps-react";
-import { GOOGLE_MAP_KEY } from './secret'
+import TripResults from "./components/TripResults";
+import PlacesToVisit from "./components/PlacesToVisit";
+import Form from "./components/Form";
+// import { Map, GoogleApiWrapper } from "google-maps-react";
+// import { GOOGLE_MAP_KEY } from "./secret";
 
 function App() {
   return (
     <div className="container">
-        {/* <div className="map">
-        <MapContainer/>
-      </div> */}
-        <div className="form">
+      <MapContainer />
+      {/* <div className="form">
         <Form />
-        </div>
-        <div>
-          <PlacesToVisit />
-        </div>
-        <div>
-          <TripResults />
-        </div>
+        <PlacesToVisit />
+        <TripResults />
+      </div> */}
     </div>
   );
 }
 
-// export default App;
+export default App;
 
-export default GoogleApiWrapper({
-  apiKey: GOOGLE_MAP_KEY,
-})(App);
+// export default GoogleApiWrapper({
+//   apiKey: GOOGLE_MAP_KEY,
+// })(App);
