@@ -15,7 +15,6 @@ export default class MapContainer extends React.Component {
   }
 
   render() {
-    console.log('we are in Maps rebder function')
     return(
       <div style={{ width: 200 , height: 200 }} id="map"></div>
     ) 
