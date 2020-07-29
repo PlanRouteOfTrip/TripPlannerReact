@@ -17,12 +17,74 @@ export const removePlace = (name) => {
     }
 }
 
+
 export const addPlace = (place) => {
     return {
         type: ADD_PLACE,
         place
     }
 }
+
+// export const addPlaceThunk = place => {
+//     console.log("place from thunk", place)
+//     return async dispatch => {
+//         try {
+//             let addedPoint;
+//             const newPlace = async dispatch => (place) => {
+//                 console.log("place from google call", place)
+//         var request = {
+//         query: place,
+//         fields: ["name", "geometry", "formatted_address", "place_id"],
+//     };
+//         return new Promise((resolve, reject) => {
+//             service = new google.maps.places.PlacesService(map);
+//             service.findPlaceFromQuery(request, async function (results, status) {
+//                 if (status === google.maps.places.PlacesServiceStatus.OK) {
+//                     let foundPoint = await createMarker(results[0]);
+//                      map.setCenter(results[0].geometry.location);
+//                     resolve(foundPoint);
+//                 }
+//             });
+//         });
+//             }
+//             if (newPlace.opening_hours) {
+//             addedPoint = {
+//                 name: newPlace.name,
+//                 address: newPlace.formatted_address,
+//                 minsToSpend: Number(minutes),
+//                 hours: newPlace.opening_hours,
+//             };
+//             } else {
+//             addedPoint = {
+//                 name: newPlace.name,
+//                 address: newPlace.formatted_address,
+//                 minsToSpend: Number(minutes),
+//             };
+//         }
+//         dispatch(addPlace(addedPoint))
+//         } catch (error) {
+//             console.log('Problem with adding place to visit', error)
+//         }
+//     }
+// }
+
+// function getFoundPlace(place) {
+//     console.log("place from google call", place)
+//         var request = {
+//         query: place,
+//         fields: ["name", "geometry", "formatted_address", "place_id"],
+//     };
+//         return new Promise((resolve, reject) => {
+//             service = new google.maps.places.PlacesService(map);
+//             service.findPlaceFromQuery(request, async function (results, status) {
+//                 if (status === google.maps.places.PlacesServiceStatus.OK) {
+//                     let foundPoint = await createMarker(results[0]);
+//                      map.setCenter(results[0].geometry.location);
+//                     resolve(foundPoint);
+//                 }
+//             });
+//         });
+// }
 
 const initialState = {
     startPoint: {},

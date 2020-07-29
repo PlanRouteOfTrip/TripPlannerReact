@@ -1,6 +1,9 @@
 import React from 'react'
-import {addPlace} from "../store"
+import {addPlace, addPlaceThunk} from "../store"
 import {connect} from 'react-redux'
+
+import { Map, GoogleApiWrapper } from "google-maps-react";
+import { GOOGLE_MAP_KEY } from '../secret'
 
 
 
@@ -24,7 +27,7 @@ class Form extends React.Component {
         this.submitStart = this.submitStart.bind(this)
     }
 
-    async addPoint(point, mins) {
+    async addPoint(point) {
     
         let addedPoint
         let newPlace = await this.getFoundPlace(point);
@@ -33,21 +36,21 @@ class Form extends React.Component {
             addedPoint = {
                 name: newPlace.name,
                 address: newPlace.formatted_address,
-                minsToSpend: Number(minutes),
+                // minsToSpend: mins,
                 hours: newPlace.opening_hours,
             };
         } else {
             addedPoint = {
                 name: newPlace.name,
                 address: newPlace.formatted_address,
-                minsToSpend: Number(minutes),
+                // minsToSpend: mins,
             };
         }
-
-        this.setState({
-            pointsToVisit: [...this.state.pointsToVisit, addedPoint]
-        })
-        console.log(this.state.pointsToVisit)
+        return addedPoint
+        // this.setState({
+        //     pointsToVisit: [...this.state.pointsToVisit, addedPoint]
+        // })
+        // console.log(this.state.pointsToVisit)
     }
 
     getFoundPlace(place) {
@@ -56,9 +59,9 @@ class Form extends React.Component {
         fields: ["name", "geometry", "formatted_address", "place_id"],
     };
         return new Promise((resolve, reject) => {
-            service = new google.maps.places.PlacesService(map);
+            var service = new window.google.maps.places.PlacesService(map);
             service.findPlaceFromQuery(request, async function (results, status) {
-                if (status === google.maps.places.PlacesServiceStatus.OK) {
+                if (status === window.google.maps.places.PlacesServiceStatus.OK) {
                     let foundPoint = await createMarker(results[0]);
                      map.setCenter(results[0].geometry.location);
                     resolve(foundPoint);
@@ -130,9 +133,11 @@ class Form extends React.Component {
             placeholder="Time you plan to spend there in minutes"
             onChange={e => this.setState({curMinsToSpend: e.target.value})}
           /><br /> */}
-          <button type="submit" id="addPoint" onClick={(e) => {
+          <button type="submit" id="addPoint" onClick={async (e) => {
               e.preventDefault()
-              this.props.addPlace(this.state.curPoint)
+              let place = await this.addPoint(this.state.curPoint)
+
+              this.props.addPlace(place)
               //TBD: clear the form, show placeholder
               }}>
             Add place to the list
