@@ -1,20 +1,23 @@
 import React from 'react'
+import {addPlace} from "../store"
+import {connect} from 'react-redux'
 
 
-export default class Form extends React.Component {
-    constructor() {
-        super()
+
+class Form extends React.Component {
+    constructor(props) {
+        super(props)
         this.state = {
-            startPoint: '',
-            startTime: 0,
-            endPoint: '',
-            endTime: 0,
-            pointsToVisit: [],
+        //     startPoint: '',
+        //     startTime: 0,
+        //     endPoint: '',
+        //     endTime: 0,
+        //     pointsToVisit: [],
             curPoint: '',
-            curMinsToSpend: 0,
-            placeInput: '',
-            dayInput: 0,
-            timeInput: 0
+        //     curMinsToSpend: 0,
+        //     placeInput: '',
+        //     dayInput: 0,
+        //     timeInput: 0
         }
         this.addPoint = this.addPoint.bind(this)
         this.submitFinish = this.submitFinish.bind(this)
@@ -83,7 +86,7 @@ export default class Form extends React.Component {
       <div>
         <h2>Create Your Trip:</h2>
         <form className="start">
-          <h3>1. Starting Point:</h3>
+          {/* <h3>1. Starting Point:</h3>
           <input
             type="text"
             name="startDay"
@@ -112,29 +115,30 @@ export default class Form extends React.Component {
           </div>
           <button type="submit" id="addFinish" onClick={() => this.submitFinish(this.state.placeInput, this.state.dayInput, this.state.timeInput)}>Set Finish</button>
         </form>
-        <form className="locations">
+        <form className="locations"> */}
           <h3>3. Places to visit:</h3>
           <input
             type="text"
             name="curPoint"
             placeholder="Name or Address of place"
             onChange={e => {
-                console.log(e.target.value)
                 this.setState({curPoint: e.target.value})}}
           /><br />
-          <input
+          {/* <input
             type="number"
             name="curMinsToSpend"
             placeholder="Time you plan to spend there in minutes"
             onChange={e => this.setState({curMinsToSpend: e.target.value})}
-          /><br />
-          <button type="submit" id="addPoint" onClick={(evt) => {
-              evt.preventDefault()
-              this.addPoint(this.state.curPoint, this.state.curMinsToSpend)}}>
+          /><br /> */}
+          <button type="submit" id="addPoint" onClick={(e) => {
+              e.preventDefault()
+              this.props.addPlace(this.state.curPoint)
+              //TBD: clear the form, show placeholder
+              }}>
             Add place to the list
           </button>
         </form>
-        <div>
+        {/* <div>
           <h5>All places to visit on this trip:</h5>
           <ul id="listAllPlaces"></ul>
         </div>
@@ -144,8 +148,20 @@ export default class Form extends React.Component {
         <div>
           <h2>Best trip options:</h2>
           <ul id="bestTripOptions"></ul>
-        </div>
+        </div> */}
       </div>
         )
     }
 }
+
+const mapStateToProps = (state) => ({
+  places: state.placesToVisit
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  addPlace: (name) => dispatch(addPlace(name))
+})
+
+const ConnectedForm = connect(mapStateToProps, mapDispatchToProps)(Form)
+
+export default ConnectedForm
