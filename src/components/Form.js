@@ -9,9 +9,9 @@ class Form extends React.Component {
     super(props);
     this.state = {
       startPoint: "",
-      startTime: null,
+      startTime: "",
       endPoint: "",
-      endTime: null,
+      endTime: "",
       curPoint: "",
       curMinsToSpend: 0,
     };
@@ -38,6 +38,8 @@ class Form extends React.Component {
               InputLabelProps={{
                 shrink: true,
               }}
+              value={this.state.startTime}
+              onChange={(e) => this.setState({startTime: e.target.value})}
             />
           </div>
           <button
@@ -45,8 +47,7 @@ class Form extends React.Component {
             id="addStart"
             onClick={(e) => {
               e.preventDefault();
-              console.log(this.state);
-              this.props.addStart(this.state.startPoint, this.state.startTime);
+              this.props.addStart(this.state.startPoint, this.state.startTime, this.props.map);
             }}
           >
             {" "}
@@ -70,6 +71,8 @@ class Form extends React.Component {
               InputLabelProps={{
                 shrink: true,
               }}
+              value={this.state.endTime}
+              onChange={(e) => this.setState({endTime: e.target.value})}
             />
           </div>
           <button
@@ -77,8 +80,7 @@ class Form extends React.Component {
             id="addFinish"
             onClick={(e) => {
               e.preventDefault();
-              console.log(this.state);
-              this.props.addFinish(this.state.endPoint, this.state.endTime);
+              this.props.addFinish(this.state.endPoint, this.state.endTime, this.props.map);
             }}
           >
             {" "}
@@ -135,8 +137,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   addPlace: (name, map) => dispatch(addPlace(name, map)),
-  addStart: (place, time) => dispatch(addStart(place, time)),
-  addFinish: (place, time) => dispatch(addFinish(place, time)),
+  addStart: (place, time, map) => dispatch(addStart(place, time, map)),
+  addFinish: (place, time, map) => dispatch(addFinish(place, time, map)),
 });
 
 const ConnectedForm = connect(mapStateToProps, mapDispatchToProps)(Form);

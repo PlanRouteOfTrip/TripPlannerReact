@@ -13,10 +13,11 @@ export const fetchPlaces = () => {
   };
 };
 
-export const removePlace = (name) => {
+export const removePlace = (name, id) => {
   return {
     type: REMOVE_PLACE,
     name,
+    id
   };
 };
 
@@ -61,16 +62,24 @@ function getFoundPlace(place, map) {
     });
   });
 }
-const group = [];
+let group = [];
+
+let currentId = 0;
+let uniqueId = function() {
+    return ++currentId;
+}
 
 async function createMarker(place, map, service, infowindow) {
   try {
+    var id = uniqueId()
     var marker = new window.google.maps.Marker({
+      id: id,
       map: map,
+      animation: window.google.maps.Animation.DROP,
       position: place.geometry.location,
       placeId: place.place_id,
     });
-
+    
     // auto-zooming according chosen markers
     group.push(marker);
     const bounds = new window.google.maps.LatLngBounds();
@@ -86,11 +95,17 @@ async function createMarker(place, map, service, infowindow) {
     });
 
     let goalPlace = await getGoalPlace(marker.placeId, service);
-
+    goalPlace.id = marker.id
     return goalPlace;
   } catch (error) {
     console.log("error", error);
   }
+}
+
+function removeMarker(id) {
+    let marker = group.filter(mark => mark.id === id); 
+    marker[0].setMap(null);
+    group = group.filter(el => el.id !== id)
 }
 
 function getGoalPlace(placeId, service) {
@@ -108,7 +123,7 @@ function getGoalPlace(placeId, service) {
   });
 }
 
-export const addStart = (place, time) => {
+const addedStart = (place, time) => {
   return {
     type: ADD_START,
     place,
@@ -116,11 +131,33 @@ export const addStart = (place, time) => {
   };
 };
 
-export const addFinish = (place, time) => {
+const addedFinish = (place, time) => {
   return {
     type: ADD_FINISH,
     place,
     time,
+  };
+};
+
+export const addStart = (place, time, map) => {
+  return async (dispatch) => {
+    try {
+      let newStartPlace = await getFoundPlace(place, map);
+      dispatch(addedStart(newStartPlace, time));
+    } catch (error) {
+      console.log("Error with finding place", error);
+    }
+  };
+};
+
+export const addFinish = (place, time, map) => {
+  return async (dispatch) => {
+    try {
+      let newFinishPlace = await getFoundPlace(place, map);
+      dispatch(addedFinish(newFinishPlace, time));
+    } catch (error) {
+      console.log("Error with finding place", error);
+    }
   };
 };
 
@@ -138,12 +175,14 @@ const reducer = (state = initialState, action) => {
     case FETCH_PLACES:
       return {};
     case REMOVE_PLACE:
+      removeMarker(action.id)
       let places = state.placesToVisit;
       let newPlaces = places.filter((place) => {
         if (place.name !== action.name) return place;
       });
       return { ...state, placesToVisit: newPlaces };
     case ADD_PLACE:
+      console.log("state", state)
       return {
         ...state,
         placesToVisit: [...state.placesToVisit, action.place],
