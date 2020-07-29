@@ -1,9 +1,12 @@
 import React from 'react'
 import {addPlace, addPlaceThunk} from "../store"
 import {connect} from 'react-redux'
+// import {DateTimePicker} from 'react-widgets'
+// let {DateTimePicker} = ReactWidgets
+import DateTimePicker from 'react-widgets/lib/DateTimePicker'
 
-import { Map, GoogleApiWrapper } from "google-maps-react";
-import { GOOGLE_MAP_KEY } from '../secret'
+// import { Map, GoogleApiWrapper } from "google-maps-react";
+// import { GOOGLE_MAP_KEY } from '../secret'
 
 
 
@@ -11,16 +14,14 @@ class Form extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-        //     startPoint: '',
-        //     startTime: 0,
-        //     endPoint: '',
-        //     endTime: 0,
-        //     pointsToVisit: [],
+            startPoint: '',
+            startDay: new Date(),
+            startTime: '',
+            endPoint: '',
+            endDay: new Date(),
+            endTime: '',
             curPoint: '',
-        //     curMinsToSpend: 0,
-        //     placeInput: '',
-        //     dayInput: 0,
-        //     timeInput: 0
+            curMinsToSpend: 0
         }
         this.addPoint = this.addPoint.bind(this)
         this.submitFinish = this.submitFinish.bind(this)
@@ -89,36 +90,43 @@ class Form extends React.Component {
       <div>
         <h2>Create Your Trip:</h2>
         <form className="start">
-          {/* <h3>1. Starting Point:</h3>
-          <input
+          <h3>1. Starting Point:</h3>
+          {/* <input
             type="text"
             name="startDay"
-            value = {this.state.placeInput}
+            value = {this.state.startPoint}
             placeholder="Name or Address of your starting point"
-            onChange={e => this.setState({placeInput: e.target.value})}
-          /><br />
+            onChange={e => this.setState({startPoint: e.target.value})}
+          /><br /> */}
           <div id="timeDate">
-            <input type="date" name="startDate" value={this.state.dayInput} onChange={e => this.setState({dayInput: e.target.value})}/>
-            <input type="time" name="startTime" value={this.state.timeInput} onChange={e => this.setState({timeInput: e.target.value})}/>
+            {/* <input type="date" name="startDate" value={this.state.startDay} onChange={e => this.setState({startDay: e.target.value})}/>
+            <input type="time" name="startTime" value={this.state.startTime} onChange={e => this.setState({endDay: e.target.value})}/> */}
+            <DateTimePicker value={this.state.startTime} onChange={e => this.setState({startTime: e.target.value})} />
           </div>
-          <button type="submit" id="addStart" onClick={() => this.submitStart(this.state.placeInput, this.state.dayInput, this.state.timeInput)}>Set Start</button>
+          <button type="submit" id="addStart" onClick={(e) => {
+            e.preventDefault()
+            console.log(this.state)
+            this.submitStart(this.state.startPoint, this.state.startDay, this.state.startTime)}}> Set Start</button>
         </form>
         <form className="finish">
           <h3>2. Final Destination: </h3>
-          <input
+          {/* <input
             type="text"
             name="endPoint"
-            value = {this.state.placeInput}
+            value = {this.state.endPoint}
             placeholder="Name or Address of your finish point"
-            onChange={e => this.setState({placeInput: e.target.value})}
-          /><br />
+            onChange={e => this.setState({endPoint: e.target.value})}
+          /><br /> */}
           <div id="timeDate">
-            <input type="date" name="endDay" value={this.state.dayInput} onChange={e => this.setState({dayInput: e.target.value})}/>
-            <input type="time" name="endTime" value={this.state.timeInput} onChange={e => this.setState({timeInput: e.target.value})}/>
+            <input type="date" name="endDay" value={this.state.endDay} onChange={e => this.setState({endDay: e.target.value})}/>
+            <input type="time" name="endTime" value={this.state.endTime} onChange={e => this.setState({endTime: e.target.value})}/>
           </div>
-          <button type="submit" id="addFinish" onClick={() => this.submitFinish(this.state.placeInput, this.state.dayInput, this.state.timeInput)}>Set Finish</button>
+          <button type="submit" id="addFinish" onClick={(e) => {
+            e.preventDefault()
+            console.log(this.state)
+            this.submitFinish(this.state.endPoint, this.state.endDay, this.state.endTime)}}>Set Finish</button>
         </form>
-        <form className="locations"> */}
+        <form className="locations">
           <h3>3. Places to visit:</h3>
           <input
             type="text"
@@ -136,7 +144,6 @@ class Form extends React.Component {
           <button type="submit" id="addPoint" onClick={async (e) => {
               e.preventDefault()
               let place = await this.addPoint(this.state.curPoint)
-
               this.props.addPlace(place)
               //TBD: clear the form, show placeholder
               }}>
