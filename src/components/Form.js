@@ -3,7 +3,7 @@ import {addPlace, addPlaceThunk} from "../store"
 import {connect} from 'react-redux'
 // import {DateTimePicker} from 'react-widgets'
 // let {DateTimePicker} = ReactWidgets
-import DateTimePicker from 'react-widgets/lib/DateTimePicker'
+// import DateTimePicker from 'react-widgets/lib/DateTimePicker'
 
 // import { Map, GoogleApiWrapper } from "google-maps-react";
 // import { GOOGLE_MAP_KEY } from '../secret'
@@ -91,17 +91,17 @@ class Form extends React.Component {
         <h2>Create Your Trip:</h2>
         <form className="start">
           <h3>1. Starting Point:</h3>
-          {/* <input
+          <input
             type="text"
             name="startDay"
             value = {this.state.startPoint}
             placeholder="Name or Address of your starting point"
             onChange={e => this.setState({startPoint: e.target.value})}
-          /><br /> */}
+          /><br />
           <div id="timeDate">
-            {/* <input type="date" name="startDate" value={this.state.startDay} onChange={e => this.setState({startDay: e.target.value})}/>
-            <input type="time" name="startTime" value={this.state.startTime} onChange={e => this.setState({endDay: e.target.value})}/> */}
-            <DateTimePicker value={this.state.startTime} onChange={e => this.setState({startTime: e.target.value})} />
+            <input type="date" name="startDate" value={this.state.startDay} onChange={e => this.setState({startDay: e.target.value})}/>
+            <input type="time" name="startTime" value={this.state.startTime} onChange={e => this.setState({endDay: e.target.value})}/>
+            {/* <DateTimePicker value={this.state.startTime} onChange={e => this.setState({startTime: e.target.value})} /> */}
           </div>
           <button type="submit" id="addStart" onClick={(e) => {
             e.preventDefault()
@@ -110,13 +110,13 @@ class Form extends React.Component {
         </form>
         <form className="finish">
           <h3>2. Final Destination: </h3>
-          {/* <input
+          <input
             type="text"
             name="endPoint"
             value = {this.state.endPoint}
             placeholder="Name or Address of your finish point"
             onChange={e => this.setState({endPoint: e.target.value})}
-          /><br /> */}
+          /><br />
           <div id="timeDate">
             <input type="date" name="endDay" value={this.state.endDay} onChange={e => this.setState({endDay: e.target.value})}/>
             <input type="time" name="endTime" value={this.state.endTime} onChange={e => this.setState({endTime: e.target.value})}/>
