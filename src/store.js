@@ -4,6 +4,8 @@ import thunk from "redux-thunk";
 const FETCH_PLACES = "FETCH_PLACES";
 const REMOVE_PLACE = "REMOVE_PLACE";
 const ADD_PLACE = "ADD_PLACE";
+const ADD_START = "ADD_START";
+const ADD_FINISH = "ADD_FINISH";
 
 export const fetchPlaces = () => {
   return {
@@ -106,10 +108,27 @@ function getGoalPlace(placeId, service) {
   });
 }
 
+export const addStart = (place, time) => {
+  return {
+    type: ADD_START,
+    place,
+    time,
+  };
+};
+
+export const addFinish = (place, time) => {
+  return {
+    type: ADD_FINISH,
+    place,
+    time,
+  };
+};
+
 const initialState = {
   startPoint: {},
   startTime: null,
   endPoint: {},
+  endTime: null,
   placesToVisit: [],
   setOfThreeBest: [],
 };
@@ -129,6 +148,10 @@ const reducer = (state = initialState, action) => {
         ...state,
         placesToVisit: [...state.placesToVisit, action.place],
       };
+    case ADD_START:
+      return { ...state, startPoint: action.place, startTime: action.time };
+    case ADD_FINISH:
+      return { ...state, endPoint: action.place, endTime: action.time };
     default:
       return state;
   }
