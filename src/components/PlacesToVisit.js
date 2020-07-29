@@ -14,7 +14,9 @@ const PlacesToVisit = (props) => {
           <div key={place.name}>
                 <p>
               {place.name} - {place.formatted_address}{" "}
-            <button onClick={() => removePlace(place.name)}>X</button>
+            <button onClick={(e) => {
+              e.preventDefault()
+              removePlace(place.name, place.id)}}>X</button>
             </p>
           </div>
         );
@@ -28,7 +30,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  removePlace: (name) => dispatch(removePlace(name)),
+  removePlace: (name, id) => dispatch(removePlace(name, id)),
 });
 
 const ConnectedPlacesToVisit = connect(
