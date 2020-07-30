@@ -1,5 +1,5 @@
 import React from "react";
-// import TripResults from "./components/TripResults";
+import TripResults from "./components/TripResults";
 import Form from "./components/Form";
 
 
@@ -23,7 +23,7 @@ export default class App extends React.Component {
         <div style={{ width: 400, height: 400 }} id="map"></div>
         <div className="form">
           <Form map={this.state.map} />
-          {/* <TripResults /> */}
+          <TripResults />
         </div>
       </div>
     );

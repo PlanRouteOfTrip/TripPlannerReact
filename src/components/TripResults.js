@@ -1,11 +1,36 @@
 import React from "react";
+import { connect } from "react-redux";
 
-export default class TripResults extends React.Component {
-  render() {
+const TripResults = (props) => {
+    const setOfTheBest = props.setOfTheBest
+
+    console.log('setOfTheBest from TripResults props', setOfTheBest)
+
     return (
       <div>
-        <p>TripResults component exported from different file</p>
+        {setOfTheBest.map((tripOption, i) => {
+            return (
+                <div key={`tripoption${i}`}>
+                <p>TRIP OPTION:</p>
+                {tripOption.map((place, j) => {
+                    return (
+                        <div key={`placeintrip${i}${j}`}>
+                            <p>{place.name}</p>
+                        </div>
+                    )
+                })}
+                </div>
+            )
+        })}
       </div>
     );
-  }
 }
+
+const mapStateToProps = (state) => ({
+    setOfTheBest: state.setOfTheBest,
+  });
+  
+  const ConnectedTripResults = connect(mapStateToProps)(TripResults);
+  
+  export default ConnectedTripResults;
+

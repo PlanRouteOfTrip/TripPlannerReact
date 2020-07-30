@@ -6,6 +6,7 @@ const REMOVE_PLACE = "REMOVE_PLACE";
 const ADD_PLACE = "ADD_PLACE";
 const ADD_START = "ADD_START";
 const ADD_FINISH = "ADD_FINISH";
+const CALCULATE_OPTIONS = "CALCULATE_OPTIONS";
 
 export const fetchPlaces = () => {
   return {
@@ -27,6 +28,13 @@ const addedPlace = (place) => {
     place,
   };
 };
+
+const calculatedOptions = (setOfTheBest) => {
+    return {
+        type: CALCULATE_OPTIONS,
+        setOfTheBest,
+    }
+}
 
 export const addPlace = (place, mins, map) => {
   return async (dispatch) => {
@@ -180,6 +188,12 @@ export const addFinish = (place, time, map) => {
   };
 };
 
+export const calculateOptions = () => {
+    return (dispatch) => {
+        let setOfTheBest = [[{name: "place 1"}, {name: "place 2"}], [{name: "place 3"}, {name: "place 5"}]]
+        dispatch(calculatedOptions(setOfTheBest))
+    }
+}
 
 const initialState = {
   startPoint: {},
@@ -187,7 +201,7 @@ const initialState = {
   endPoint: {},
   endTime: null,
   placesToVisit: [],
-  setOfThreeBest: [],
+  setOfTheBest: [],
 };
 
 // TOTAL TRIP TIME
@@ -214,7 +228,6 @@ const reducer = (state = initialState, action) => {
       });
       return { ...state, placesToVisit: newPlaces };
     case ADD_PLACE:
-      console.log("state", state);
       return {
         ...state,
         placesToVisit: [...state.placesToVisit, action.place],
@@ -223,6 +236,8 @@ const reducer = (state = initialState, action) => {
       return { ...state, startPoint: action.place, startTime: action.time };
     case ADD_FINISH:
       return { ...state, endPoint: action.place, endTime: action.time };
+    case CALCULATE_OPTIONS:
+        return {...state, setOfTheBest: action.setOfTheBest}
     default:
       return state;
   }

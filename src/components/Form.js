@@ -1,5 +1,5 @@
 import React from "react";
-import { addPlace, addFinish, addStart } from "../store";
+import { addPlace, addFinish, addStart, calculateOptions } from "../store";
 import { connect } from "react-redux";
 import PlacesToVisit from "./PlacesToVisit";
 import TextField from "@material-ui/core/TextField";
@@ -120,14 +120,16 @@ class Form extends React.Component {
             Add place to the list
           </button>
         </form>
-        {/* 
-        <button type="button" id="findTrips">
+        <button 
+          type="button" 
+          id="findTrips"
+          onClick={(e) => {
+            e.preventDefault();
+            this.props.calculateOptions();
+          }}
+          >
           4. Find best options of the trip
         </button>
-        <div>
-          <h2>Best trip options:</h2>
-          <ul id="bestTripOptions"></ul>
-        </div> */}
       </div>
     );
   }
@@ -141,6 +143,7 @@ const mapDispatchToProps = (dispatch) => ({
   addPlace: (name, mins, map) => dispatch(addPlace(name, mins, map)),
   addStart: (place, time, map) => dispatch(addStart(place, time, map)),
   addFinish: (place, time, map) => dispatch(addFinish(place, time, map)),
+  calculateOptions: () => dispatch(calculateOptions()),
 });
 
 const ConnectedForm = connect(mapStateToProps, mapDispatchToProps)(Form);
