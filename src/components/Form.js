@@ -80,6 +80,7 @@ class Form extends React.Component {
             id="addFinish"
             onClick={(e) => {
               e.preventDefault();
+              if (this.state.endPoint === "") this.setState({endPoint: this.state.startPoint})
               this.props.addFinish(this.state.endPoint, this.state.endTime, this.props.map);
             }}
           >
@@ -100,19 +101,20 @@ class Form extends React.Component {
             }}
           />
           <br />
-          {/* <input
+          <input
             type="number"
             name="curMinsToSpend"
             placeholder="Time you plan to spend there in minutes"
+            value={this.state.curMinsToSpend}
             onChange={e => this.setState({curMinsToSpend: e.target.value})}
-          /><br /> */}
+          /><br />
           <button
             type="submit"
             id="addPoint"
             onClick={(e) => {
               e.preventDefault();
-              this.props.addPlace(this.state.curPoint, this.props.map);
-              this.setState({ curPoint: "" });
+              this.props.addPlace(this.state.curPoint, this.state.curMinsToSpend, this.props.map);
+              this.setState({ curPoint: "", curMinsToSpend: 0 });
             }}
           >
             Add place to the list
@@ -136,7 +138,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  addPlace: (name, map) => dispatch(addPlace(name, map)),
+  addPlace: (name, mins, map) => dispatch(addPlace(name, mins, map)),
   addStart: (place, time, map) => dispatch(addStart(place, time, map)),
   addFinish: (place, time, map) => dispatch(addFinish(place, time, map)),
 });

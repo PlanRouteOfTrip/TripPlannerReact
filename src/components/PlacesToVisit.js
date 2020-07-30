@@ -16,7 +16,7 @@ const PlacesToVisit = (props) => {
               {place.name} - {place.formatted_address}{" "}
             <button onClick={(e) => {
               e.preventDefault()
-              removePlace(place.name, place.id)}}>X</button>
+              removePlace(place.name, place.markerId)}}>X</button>
             </p>
           </div>
         );
