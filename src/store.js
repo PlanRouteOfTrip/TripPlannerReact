@@ -13,11 +13,11 @@ export const fetchPlaces = () => {
   };
 };
 
-export const removePlace = (name, id) => {
+export const removePlace = (name, markerId) => {
   return {
     type: REMOVE_PLACE,
     name,
-    id
+    markerId,
   };
 };
 
@@ -28,10 +28,11 @@ const addedPlace = (place) => {
   };
 };
 
-export const addPlace = (place, map) => {
+export const addPlace = (place, mins, map) => {
   return async (dispatch) => {
     try {
       let newFoundPlace = await getFoundPlace(place, map);
+      newFoundPlace.minsToSpend = mins;
       dispatch(addedPlace(newFoundPlace));
     } catch (error) {
       console.log("Error with finding place", error);
@@ -39,7 +40,7 @@ export const addPlace = (place, map) => {
   };
 };
 
-function getFoundPlace(place, map) {
+function getFoundPlace(place, map, operation) {
   var request = {
     query: place,
     fields: ["name", "geometry", "formatted_address", "place_id"],
@@ -53,7 +54,8 @@ function getFoundPlace(place, map) {
           results[0],
           map,
           service,
-          infowindow
+          infowindow,
+          operation
         );
         console.log("found place", foundPoint);
         map.setCenter(results[0].geometry.location);
@@ -65,22 +67,39 @@ function getFoundPlace(place, map) {
 let group = [];
 
 let currentId = 0;
-let uniqueId = function() {
-    return ++currentId;
-}
+let uniqueId = function () {
+  return ++currentId;
+};
 
-async function createMarker(place, map, service, infowindow) {
+async function createMarker(place, map, service, infowindow, operation) {
   try {
-    var id = uniqueId()
-    var marker = new window.google.maps.Marker({
-      id: id,
-      map: map,
-      animation: window.google.maps.Animation.DROP,
-      position: place.geometry.location,
-      placeId: place.place_id,
-    });
-    
+    var id = uniqueId();
+    var marker;
+    if (operation) {
+        marker = new window.google.maps.Marker({
+        id: id,
+        operation: operation,
+        map: map,
+        animation: window.google.maps.Animation.DROP,
+        position: place.geometry.location,
+        placeId: place.place_id,
+      });
+    } else {
+        marker = new window.google.maps.Marker({
+        id: id,
+        map: map,
+        animation: window.google.maps.Animation.DROP,
+        position: place.geometry.location,
+        placeId: place.place_id,
+      });
+    }
+
     // auto-zooming according chosen markers
+    if (marker.operation) {
+      let groupDuplicate = [...group]
+      let markToRemove = groupDuplicate.filter(mark => mark.operation === marker.operation)
+      if (markToRemove.length) removeMarker(markToRemove[0].id)
+    }
     group.push(marker);
     const bounds = new window.google.maps.LatLngBounds();
     group.map((item) => {
@@ -95,7 +114,7 @@ async function createMarker(place, map, service, infowindow) {
     });
 
     let goalPlace = await getGoalPlace(marker.placeId, service);
-    goalPlace.id = marker.id
+    goalPlace.markerId = marker.id;
     return goalPlace;
   } catch (error) {
     console.log("error", error);
@@ -103,9 +122,9 @@ async function createMarker(place, map, service, infowindow) {
 }
 
 function removeMarker(id) {
-    let marker = group.filter(mark => mark.id === id); 
-    marker[0].setMap(null);
-    group = group.filter(el => el.id !== id)
+  let marker = group.filter((mark) => mark.id === id);
+  marker[0].setMap(null);
+  group = group.filter((el) => el.id !== id);
 }
 
 function getGoalPlace(placeId, service) {
@@ -142,7 +161,7 @@ const addedFinish = (place, time) => {
 export const addStart = (place, time, map) => {
   return async (dispatch) => {
     try {
-      let newStartPlace = await getFoundPlace(place, map);
+      let newStartPlace = await getFoundPlace(place, map, "start");
       dispatch(addedStart(newStartPlace, time));
     } catch (error) {
       console.log("Error with finding place", error);
@@ -153,13 +172,14 @@ export const addStart = (place, time, map) => {
 export const addFinish = (place, time, map) => {
   return async (dispatch) => {
     try {
-      let newFinishPlace = await getFoundPlace(place, map);
+      let newFinishPlace = await getFoundPlace(place, map, "finish");
       dispatch(addedFinish(newFinishPlace, time));
     } catch (error) {
       console.log("Error with finding place", error);
     }
   };
 };
+
 
 const initialState = {
   startPoint: {},
@@ -170,19 +190,31 @@ const initialState = {
   setOfThreeBest: [],
 };
 
+// TOTAL TRIP TIME
+// let start = new Date(initialState.startTime)
+// let end = new Date(initialState.endTime)
+// let totalTripTime = diff_hours(end, start);
+
+// function diff_hours(dt2, dt1) {
+//   let diff = (dt2.getTime() - dt1.getTime()) / 1000;
+//   diff /= 60;
+//   return Math.abs(Math.round(diff));
+// }
+
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_PLACES:
       return {};
     case REMOVE_PLACE:
-      removeMarker(action.id)
+      removeMarker(action.markerId);
       let places = state.placesToVisit;
       let newPlaces = places.filter((place) => {
         if (place.name !== action.name) return place;
       });
       return { ...state, placesToVisit: newPlaces };
     case ADD_PLACE:
-      console.log("state", state)
+      console.log("state", state);
       return {
         ...state,
         placesToVisit: [...state.placesToVisit, action.place],
