@@ -1,4 +1,5 @@
-function checkOpenHours(routes, start, matrix) {
+export function checkOpenHours(routes, start, matrix) {
+  console.log('I am here! Checking open hours!')
     for (let j = 0; j < routes.length; j++) {
       let timer = 0;
       let places = routes[j];
@@ -18,7 +19,7 @@ function checkOpenHours(routes, start, matrix) {
           );
         }
         // if point has property "hours" need to check if place will be opened
-        if (point.hours) {
+        if (point.opening_hours) {
           // find day when you will come to the point
           // O - Sunday, 1 - Monday, 2 - Tuesday, 3 - Wednesday, 4 - Thursday, 5 - Friday, 6 - Saturday
           let idxDay = timer.getDay();
@@ -27,9 +28,9 @@ function checkOpenHours(routes, start, matrix) {
           let idxDayOfPlace = idxDay - 1;
           if (idxDayOfPlace < 0) idxDayOfPlace = 6;
           // check if there is schedule on this day, if not  -> it's closed
-          if (point.hours.periods[idxDayOfPlace]) {
-            let opening = point.hours.periods[idxDayOfPlace].open.hours;
-            let closing = point.hours.periods[idxDayOfPlace].close.hours;
+          if (point.opening_hours.periods[idxDayOfPlace]) {
+            let opening = point.opening_hours.periods[idxDayOfPlace].open.hours;
+            let closing = point.opening_hours.periods[idxDayOfPlace].close.hours;
             // DON'T COUNT MINUTES OF OPENING FOR NOW !!!!!
             let arrivalHours = timer.getHours();
             // let arrivalMinutes = timer.getMinutes();

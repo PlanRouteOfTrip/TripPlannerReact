@@ -5,6 +5,7 @@ import {getTimeToFinish} from "./utils/calculateWithFinish"
 import {diff_hours} from "./utils/calculateTotalTripTime"
 import {getSets} from "./utils/calculateTripOptions"
 
+
 const FETCH_PLACES = "FETCH_PLACES";
 const REMOVE_PLACE = "REMOVE_PLACE";
 const ADD_PLACE = "ADD_PLACE";
@@ -202,23 +203,47 @@ export const calculateOptions = (startPoint, startTime, endPoint, endTime, place
         for (let i = 0; i < withTimeToFinish.length; i++) {
             withTimeToFinish[i].index = i;
           }
-        let setOfTheBest = await getSets(withTimeToFinish, totalTripTime)
+        let setOfTheBest = await getSets(withTimeToFinish, totalTripTime, startTime)
         console.log("setOfTheBest from thunk", setOfTheBest)
         dispatch(calculatedOptions(setOfTheBest))
     }
 }
 
+// const initialState = {
+//   startPoint: {
+//     formatted_address: "130 Hope St, Ridgewood, NJ 07450, USA",
+//     name: "130 Hope St" 
+//   },
+//   startTime: "2020-07-31T13:31",
+//   endPoint: {
+//     formatted_address: "130 Hope St, Ridgewood, NJ 07450, USA",
+//     name: "130 Hope St"
+//   },
+//   endTime: "2020-07-31T15:31",
+//   placesToVisit: [],
+//   setOfTheBest: [],
+// };
+
+// const initialState = {
+//   startPoint: {
+//     formatted_address: "2214 E 29th St, Brooklyn, NY 11229, USA",
+//     name: "2214 E 29th St" 
+//   },
+//   startTime: "2020-07-30T05:05",
+//   endPoint: {
+//     formatted_address: "2214 E 29th St, Brooklyn, NY 11229, USA",
+//     name: "2214 E 29th St"
+//   },
+//   endTime: "2020-07-30T07:05",
+//   placesToVisit: [],
+//   setOfTheBest: [],
+// };
+
 const initialState = {
-  startPoint: {
-    formatted_address: "130 Hope St, Ridgewood, NJ 07450, USA",
-    name: "130 Hope St" 
-  },
-  startTime: "2020-07-31T13:31",
-  endPoint: {
-    formatted_address: "130 Hope St, Ridgewood, NJ 07450, USA",
-    name: "130 Hope St"
-  },
-  endTime: "2020-07-31T15:31",
+  startPoint: "",
+  startTime: "",
+  endPoint: "",
+  endTime: "",
   placesToVisit: [],
   setOfTheBest: [],
 };
