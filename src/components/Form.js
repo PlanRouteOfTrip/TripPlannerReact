@@ -13,7 +13,7 @@ class Form extends React.Component {
       endPoint: "",
       endTime: "",
       curPoint: "",
-      curMinsToSpend: 0,
+      curMinsToSpend: "",
     };
   }
 
@@ -114,7 +114,7 @@ class Form extends React.Component {
             onClick={(e) => {
               e.preventDefault();
               this.props.addPlace(this.state.curPoint, this.state.curMinsToSpend, this.props.map);
-              this.setState({ curPoint: "", curMinsToSpend: 0 });
+              this.setState({ curPoint: "", curMinsToSpend: "" });
             }}
           >
             Add place to the list
