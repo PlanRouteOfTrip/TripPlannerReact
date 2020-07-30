@@ -3,6 +3,7 @@ import thunk from "redux-thunk";
 import {getTimeFromStart} from "./utils/calculateWithStart"
 import {getTimeToFinish} from "./utils/calculateWithFinish"
 import {diff_hours} from "./utils/calculateTotalTripTime"
+import {getSets} from "./utils/calculateTripOptions"
 
 const FETCH_PLACES = "FETCH_PLACES";
 const REMOVE_PLACE = "REMOVE_PLACE";
@@ -198,9 +199,12 @@ export const calculateOptions = (startPoint, startTime, endPoint, endTime, place
         console.log('totalTripTime', totalTripTime)
         let withTimeFromStart = await getTimeFromStart(startPoint, places, totalTripTime)
         let withTimeToFinish = await getTimeToFinish(endPoint, withTimeFromStart, totalTripTime)
-        let setOfTheBest = withTimeToFinish
+        for (let i = 0; i < withTimeToFinish.length; i++) {
+            withTimeToFinish[i].index = i;
+          }
+        let setOfTheBest = await getSets(withTimeToFinish, totalTripTime)
         console.log("setOfTheBest from thunk", setOfTheBest)
-        // dispatch(calculatedOptions(setOfTheBest))
+        dispatch(calculatedOptions(setOfTheBest))
     }
 }
 
@@ -218,18 +222,6 @@ const initialState = {
   placesToVisit: [],
   setOfTheBest: [],
 };
-
-// TOTAL TRIP TIME
-// let start = new Date(initialState.startTime)
-// let end = new Date(initialState.endTime)
-// let totalTripTime = diff_hours(end, start);
-
-// function diff_hours(dt2, dt1) {
-//   let diff = (dt2.getTime() - dt1.getTime()) / 1000;
-//   diff /= 60;
-//   return Math.abs(Math.round(diff));
-// }
-
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
