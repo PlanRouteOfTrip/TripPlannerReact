@@ -11,7 +11,7 @@ const TripResults = (props) => {
         {setOfTheBest.map((tripOption, i) => {
             return (
                 <div key={`tripoption${i}`}>
-                <p>TRIP OPTION:</p>
+                <p>TRIP OPTION {i + 1}:</p>
                 {tripOption.map((place, j) => {
                     return (
                         <div key={`placeintrip${i}${j}`}>

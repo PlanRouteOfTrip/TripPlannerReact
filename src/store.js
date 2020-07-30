@@ -1,5 +1,8 @@
 import { createStore, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
+import {getTimeFromStart} from "./utils/calculateWithStart"
+import {getTimeToFinish} from "./utils/calculateWithFinish"
+import {diff_hours} from "./utils/calculateTotalTripTime"
 
 const FETCH_PLACES = "FETCH_PLACES";
 const REMOVE_PLACE = "REMOVE_PLACE";
@@ -188,18 +191,30 @@ export const addFinish = (place, time, map) => {
   };
 };
 
-export const calculateOptions = () => {
-    return (dispatch) => {
-        let setOfTheBest = [[{name: "place 1"}, {name: "place 2"}], [{name: "place 3"}, {name: "place 5"}]]
-        dispatch(calculatedOptions(setOfTheBest))
+export const calculateOptions = (startPoint, startTime, endPoint, endTime, places) => {
+    console.log("sent to thunk: ", "startPoint", startPoint, 'startTime', startTime, 'endPoint', endPoint, 'endTime', endTime, 'places', places)
+    return async (dispatch) => {
+        let totalTripTime = diff_hours(endTime, startTime)
+        console.log('totalTripTime', totalTripTime)
+        let withTimeFromStart = await getTimeFromStart(startPoint, places, totalTripTime)
+        let withTimeToFinish = await getTimeToFinish(endPoint, withTimeFromStart, totalTripTime)
+        let setOfTheBest = withTimeToFinish
+        console.log("setOfTheBest from thunk", setOfTheBest)
+        // dispatch(calculatedOptions(setOfTheBest))
     }
 }
 
 const initialState = {
-  startPoint: {},
-  startTime: null,
-  endPoint: {},
-  endTime: null,
+  startPoint: {
+    formatted_address: "130 Hope St, Ridgewood, NJ 07450, USA",
+    name: "130 Hope St" 
+  },
+  startTime: "2020-07-31T13:31",
+  endPoint: {
+    formatted_address: "130 Hope St, Ridgewood, NJ 07450, USA",
+    name: "130 Hope St"
+  },
+  endTime: "2020-07-31T15:31",
   placesToVisit: [],
   setOfTheBest: [],
 };
@@ -233,6 +248,8 @@ const reducer = (state = initialState, action) => {
         placesToVisit: [...state.placesToVisit, action.place],
       };
     case ADD_START:
+      console.log("START PLACE: ", action.place)
+      console.log("START TIME: ", action.time, typeof action.time)
       return { ...state, startPoint: action.place, startTime: action.time };
     case ADD_FINISH:
       return { ...state, endPoint: action.place, endTime: action.time };

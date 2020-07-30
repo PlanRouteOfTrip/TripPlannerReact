@@ -125,7 +125,7 @@ class Form extends React.Component {
           id="findTrips"
           onClick={(e) => {
             e.preventDefault();
-            this.props.calculateOptions();
+            this.props.calculateOptions(this.props.startPoint, this.props.startTime, this.props.endPoint, this.props.endTime, this.props.places);
           }}
           >
           4. Find best options of the trip
@@ -137,13 +137,17 @@ class Form extends React.Component {
 
 const mapStateToProps = (state) => ({
   places: state.placesToVisit,
+  startPoint: state.startPoint,
+  startTime: state.startTime,
+  endPoint: state.endPoint,
+  endTime: state.endTime,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   addPlace: (name, mins, map) => dispatch(addPlace(name, mins, map)),
   addStart: (place, time, map) => dispatch(addStart(place, time, map)),
   addFinish: (place, time, map) => dispatch(addFinish(place, time, map)),
-  calculateOptions: () => dispatch(calculateOptions()),
+  calculateOptions: (startPoint, startTime, endPoint, endTime, places) => dispatch(calculateOptions(startPoint, startTime, endPoint, endTime, places)),
 });
 
 const ConnectedForm = connect(mapStateToProps, mapDispatchToProps)(Form);
