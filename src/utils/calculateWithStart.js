@@ -22,7 +22,7 @@ function getTimeFromStartFromAPI(startPoint, places, totalTripTime) {
             let currentTimeFromStart = Math.floor(
               foundTimes[i].duration.value / 60
             );
-            if (Number(currentPlace.minsToSpend) + currentTimeFromStart < totalTripTime) {
+            if (currentPlace.minsToSpend + currentTimeFromStart < totalTripTime) {
               currentPlace.timeFromStart = currentTimeFromStart;
               newPlaces.push(currentPlace);
             }

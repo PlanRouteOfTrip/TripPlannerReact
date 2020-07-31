@@ -45,7 +45,7 @@ export const addPlace = (place, mins, map) => {
   return async (dispatch) => {
     try {
       let newFoundPlace = await getFoundPlace(place, map);
-      newFoundPlace.minsToSpend = mins;
+      newFoundPlace.minsToSpend = Number(mins);
       dispatch(addedPlace(newFoundPlace));
     } catch (error) {
       console.log("Error with finding place", error);

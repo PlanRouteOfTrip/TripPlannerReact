@@ -29,17 +29,17 @@ export async function getSets(places, totalTripTime) {
 
   for (let i = 0; i < tripsOptions.length; i++) {
     let time =
-      Number(tripsOptions[i][0].minsToSpend) +
+      tripsOptions[i][0].minsToSpend +
       tripsOptions[i][0].timeFromStart +
       tripsOptions[i][tripsOptions[i].length - 1].timeToFinish;
     let trip = tripsOptions[i];
     for (let j = 1; j < places.length; j++) {
         console.log("matrix[0] from the loop", matrix[0])
-        console.log("time + matrix + minsToSpend", time, matrix[trip[j - 1].index][trip[j].index], Number(trip[j].minsToSpend))
+        console.log("time + matrix + minsToSpend", time, matrix[trip[j - 1].index][trip[j].index], trip[j].minsToSpend)
         time =
         time +
         matrix[trip[j - 1].index][trip[j].index] +
-        Number(trip[j].minsToSpend);
+        trip[j].minsToSpend;
       //if time greater than totalTripTime we need to cut rest of the points in this trip and break this loop
       if (time > totalTripTime) {
         trip = trip.slice(0, j);
