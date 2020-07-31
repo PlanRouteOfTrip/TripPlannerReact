@@ -25,7 +25,7 @@ export async function getSets(places, totalTripTime) {
   let matrix = await fillTravelTimes(places)
   console.log('matrix', matrix)
   let tripsOptions = createPossibleTrips(places);
-  console.log("tripsOptions.length", tripsOptions.length)
+  // console.log("tripsOptions.length", tripsOptions.length)
 
   for (let i = 0; i < tripsOptions.length; i++) {
     let time =
@@ -34,8 +34,6 @@ export async function getSets(places, totalTripTime) {
       tripsOptions[i][tripsOptions[i].length - 1].timeToFinish;
     let trip = tripsOptions[i];
     for (let j = 1; j < places.length; j++) {
-        console.log("matrix[0] from the loop", matrix[0])
-        console.log("time + matrix + minsToSpend", time, matrix[trip[j - 1].index][trip[j].index], trip[j].minsToSpend)
         time =
         time +
         matrix[trip[j - 1].index][trip[j].index] +
@@ -43,17 +41,20 @@ export async function getSets(places, totalTripTime) {
       //if time greater than totalTripTime we need to cut rest of the points in this trip and break this loop
       if (time > totalTripTime) {
         trip = trip.slice(0, j);
+        console.log("trip sliced", trip)
         break;
       }
     }
-    trip[0].totalTripTime = time;
+    console.log('trip before adding totalTripTime', trip)
+    trip.push(time)
+    console.log("final trip", trip)
     //check if trip is already in finalSet
     if (!checkSet(finalSet, trip)) {
       finalSet.push(trip);
     }
   }
 
-//   // pick 3 best sets
+  // pick 3 best sets
   bestSet = getSetOfTheBest(finalSet);
 
   return bestSet;
