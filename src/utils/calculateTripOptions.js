@@ -1,5 +1,6 @@
 import { getSetOfTheBest } from "./findBestSets";
 import { fillTravelTimes } from "./createTravelTimeMatrix";
+import {checkOpenHours} from './openHours'
 
 const createPossibleTrips = (points) => {
   const permutations = [];
@@ -19,7 +20,7 @@ const createPossibleTrips = (points) => {
   return permutations;
 };
 
-export async function getSets(places, totalTripTime) {
+export async function getSets(places, totalTripTime, startTime) {
   let finalSet = [];
   let bestSet = [];
   let matrix = await fillTravelTimes(places)
@@ -56,8 +57,9 @@ export async function getSets(places, totalTripTime) {
 
   // pick 3 best sets
   bestSet = getSetOfTheBest(finalSet);
+  let finalSets = checkOpenHours(bestSet, startTime, matrix)
 
-  return bestSet;
+  return finalSets;
 }
 
 const checkSet = (curSet, trip) => {

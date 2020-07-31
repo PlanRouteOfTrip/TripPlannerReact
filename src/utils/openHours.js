@@ -1,9 +1,9 @@
 export function checkOpenHours(routes, start, matrix) {
-  console.log('I am here! Checking open hours!')
+  console.log('I am here! Checking open hours! matrix is' , matrix)
     for (let j = 0; j < routes.length; j++) {
       let timer = 0;
       let places = routes[j];
-      for (let i = 0; i < places.length; i++) {
+      for (let i = 0; i < places.length - 1; i++) {
         let timeToFirstPoint = places[0].timeFromStart;
         let point = places[i];
         // if we on first point need add time from start to know what time we will be there
