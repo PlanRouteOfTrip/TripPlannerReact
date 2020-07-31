@@ -11,7 +11,7 @@ const PlacesToVisit = (props) => {
       {places.map((place) => {
         return (
           //TBD: change key to place ID later
-          <div key={place.name}>
+          <div key={`marker${place.markerId}`}>
                 <p>
               {place.name} - {place.formatted_address}{" "}
             <button onClick={(e) => {

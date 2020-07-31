@@ -256,7 +256,7 @@ const reducer = (state = initialState, action) => {
       removeMarker(action.markerId);
       let places = state.placesToVisit;
       let newPlaces = places.filter((place) => {
-        if (place.name !== action.name) return place;
+        if (place.markerId !== action.markerId) return place;
       });
       return { ...state, placesToVisit: newPlaces };
     case ADD_PLACE:
