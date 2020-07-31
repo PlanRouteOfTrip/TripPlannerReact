@@ -1,6 +1,5 @@
-import { getBestSet } from "./findBestSets";
+import { getSetOfTheBest } from "./findBestSets";
 import { fillTravelTimes } from "./createTravelTimeMatrix";
-import {checkOpenHours} from './openHours'
 
 const createPossibleTrips = (points) => {
   const permutations = [];
@@ -20,28 +19,27 @@ const createPossibleTrips = (points) => {
   return permutations;
 };
 
-export async function getSets(places, totalTripTime, startTime) {
+export async function getSets(places, totalTripTime) {
   let finalSet = [];
   let bestSet = [];
   let matrix = await fillTravelTimes(places)
-  // console.log('matrix', matrix)
+  console.log('matrix', matrix)
   let tripsOptions = createPossibleTrips(places);
-  // console.log("tripsOptions.length", tripsOptions.length)
+  console.log("tripsOptions.length", tripsOptions.length)
 
   for (let i = 0; i < tripsOptions.length; i++) {
     let time =
-      Number(tripsOptions[i][0].minsToSpend) +
+      tripsOptions[i][0].minsToSpend +
       tripsOptions[i][0].timeFromStart +
       tripsOptions[i][tripsOptions[i].length - 1].timeToFinish;
     let trip = tripsOptions[i];
     for (let j = 1; j < places.length; j++) {
-        console.log("matrix[0]", matrix[0])
-        console.log("matrix[0][1]", matrix[0][1])
-        console.log("time + matrix + minsToSpend", time, matrix[trip[j - 1].index][trip[j].index], Number(trip[j].minsToSpend))
+        console.log("matrix[0] from the loop", matrix[0])
+        console.log("time + matrix + minsToSpend", time, matrix[trip[j - 1].index][trip[j].index], trip[j].minsToSpend)
         time =
         time +
         matrix[trip[j - 1].index][trip[j].index] +
-        Number(trip[j].minsToSpend);
+        trip[j].minsToSpend;
       //if time greater than totalTripTime we need to cut rest of the points in this trip and break this loop
       if (time > totalTripTime) {
         trip = trip.slice(0, j);
@@ -56,11 +54,9 @@ export async function getSets(places, totalTripTime, startTime) {
   }
 
 //   // pick 3 best sets
-  bestSet = getBestSet(finalSet);
+  bestSet = getSetOfTheBest(finalSet);
 
-  let finalBestSet = checkOpenHours(bestSet, startTime, matrix)
-
-  return finalBestSet;
+  return bestSet;
 }
 
 const checkSet = (curSet, trip) => {

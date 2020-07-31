@@ -20,7 +20,7 @@ function getTimeToFinishAPI(endPoint, places, totalTripTime) {
             let curPlace = places[i];
             let curTimeToFinish = Math.floor(foundTimes[i].duration.value / 60);
             if (
-              Number(curPlace.minsToSpend) + curTimeToFinish + curPlace.timeFromStart <
+              curPlace.minsToSpend + curTimeToFinish + curPlace.timeFromStart <
               totalTripTime
             ) {
               curPlace.timeToFinish = curTimeToFinish;

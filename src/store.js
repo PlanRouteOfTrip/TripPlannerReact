@@ -45,7 +45,7 @@ export const addPlace = (place, mins, map) => {
   return async (dispatch) => {
     try {
       let newFoundPlace = await getFoundPlace(place, map);
-      newFoundPlace.minsToSpend = mins;
+      newFoundPlace.minsToSpend = Number(mins);
       dispatch(addedPlace(newFoundPlace));
     } catch (error) {
       console.log("Error with finding place", error);
@@ -209,20 +209,20 @@ export const calculateOptions = (startPoint, startTime, endPoint, endTime, place
     }
 }
 
-// const initialState = {
-//   startPoint: {
-//     formatted_address: "130 Hope St, Ridgewood, NJ 07450, USA",
-//     name: "130 Hope St" 
-//   },
-//   startTime: "2020-07-31T13:31",
-//   endPoint: {
-//     formatted_address: "130 Hope St, Ridgewood, NJ 07450, USA",
-//     name: "130 Hope St"
-//   },
-//   endTime: "2020-07-31T15:31",
-//   placesToVisit: [],
-//   setOfTheBest: [],
-// };
+const initialState = {
+  startPoint: {
+    formatted_address: "130 Hope St, Ridgewood, NJ 07450, USA",
+    name: "130 Hope St" 
+  },
+  startTime: "2020-07-31T13:31",
+  endPoint: {
+    formatted_address: "130 Hope St, Ridgewood, NJ 07450, USA",
+    name: "130 Hope St"
+  },
+  endTime: "2020-07-31T15:31",
+  placesToVisit: [],
+  setOfTheBest: [],
+};
 
 // const initialState = {
 //   startPoint: {
@@ -239,14 +239,14 @@ export const calculateOptions = (startPoint, startTime, endPoint, endTime, place
 //   setOfTheBest: [],
 // };
 
-const initialState = {
-  startPoint: "",
-  startTime: "",
-  endPoint: "",
-  endTime: "",
-  placesToVisit: [],
-  setOfTheBest: [],
-};
+// const initialState = {
+//   startPoint: "",
+//   startTime: "",
+//   endPoint: "",
+//   endTime: "",
+//   placesToVisit: [],
+//   setOfTheBest: [],
+// };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
