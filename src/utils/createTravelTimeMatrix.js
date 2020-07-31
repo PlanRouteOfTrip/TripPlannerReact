@@ -8,11 +8,9 @@ function fillTravelTimesAPI(places) {
       for (let j = 0; j < places.length; j++) {
         innerArr.push(0);
       }
-      // travelTimes.push(new Array(places.length).fill(0));
       travelTimes.push(innerArr);
     }
     let addressesOnly = [...places].map((el) => el.formatted_address);
-    //   console.log("only addresses for matrix", addressesOnly);
 
     for (let i = 0; i < travelTimes.length; i++) {
       for (let j = i + 1; j < travelTimes.length; j++) {
@@ -26,6 +24,7 @@ function fillTravelTimesAPI(places) {
         break;
       }
     }
+    console.log('travel times', travelTimes)
     resolve(travelTimes);
     //   return {
     //     error: error,

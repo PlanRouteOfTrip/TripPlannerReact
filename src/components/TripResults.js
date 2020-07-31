@@ -9,16 +9,19 @@ const TripResults = (props) => {
         {setOfTheBest.map((tripOption, i) => {
             return (
                 <div key={`tripoption${i}`}>
-                <p>TRIP OPTION {i + 1}: total trip time - {tripOption[0].totalTripTime}</p>
+                <p>TRIP OPTION {i + 1}: total trip time - {tripOption[tripOption.length - 1]}</p>
                 <p>TRAVEL FROM START: {tripOption[0].timeFromStart} mins</p>
                 {tripOption.map((place, j) => {
-                    return (
+                    if (typeof place === "object") {
+                        return (
                         <div key={`placeintrip${i}${j}`}>
                             <p>{place.name} - {place.minsToSpend} mins</p>
                         </div>
                     )
+                    }
+                    
                 })}
-                <p>TRAVEL TO FINISH: {tripOption[tripOption.length - 1].timeToFinish} mins</p>
+                <p>TRAVEL TO FINISH: {tripOption[tripOption.length - 2].timeToFinish} mins</p>
                 </div>
             )
         })}
