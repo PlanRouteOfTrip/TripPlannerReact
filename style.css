@@ -182,3 +182,7 @@ input {
     margin-bottom: 20px;
   }
   
+
+  #alert {
+    color: red;
+  }
