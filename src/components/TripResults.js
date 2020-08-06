@@ -16,6 +16,7 @@ const TripResults = (props) => {
                         return (
                         <div key={`placeintrip${i}${j}`}>
                             <p>{place.name} - {place.minsToSpend} mins</p>
+                            {(place.alert) ? <p id="alert">{place.alert}</p> : <p></p>}
                         </div>
                     )
                     }

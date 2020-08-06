@@ -20,7 +20,7 @@ export default class App extends React.Component {
   render() {
     return (
       <div className="container">
-        <div style={{ width: 600, height: 400 }} id="map"></div>
+        <div style={{height: 800, width: 1200}} id="map"></div>
         <div className="form">
           <Form map={this.state.map} />
           <TripResults />
