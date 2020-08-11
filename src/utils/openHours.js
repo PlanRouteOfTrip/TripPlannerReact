@@ -1,25 +1,33 @@
 export function checkOpenHours(routes, start, matrix) {
-  console.log('I am here! Checking open hours! matrix is' , matrix)
-    for (let j = 0; j < routes.length; j++) {
-      let timer = 0;
-      let places = routes[j];
-      for (let i = 0; i < places.length - 1; i++) {
-        let timeToFirstPoint = places[0].timeFromStart;
-        let point = places[i];
-        // if we on first point need add time from start to know what time we will be there
-        if (i === 0) {
+  console.log("I am here! Checking open hours! matrix is", matrix);
+  for (let j = 0; j < routes.length; j++) {
+    let timer = 0;
+    let places = routes[j];
+    for (let i = 0; i < places.length - 1; i++) {
+      let timeToFirstPoint = places[0].timeFromStart;
+      let point = places[i];
+      // if we on first point need add time from start to know what time we will be there
+      if (i === 0) {
+        timer = new Date(
+          new Date(start).getTime() + timeToFirstPoint * 60 * 1000
+        );
+        // if not the first point, add time from previous point to current from matrix
+      } else {
+        timer = new Date(
+          new Date(timer).getTime() +
+            matrix[point.index][places[i - 1].index] * 60 * 1000
+        );
+      }
+      // if point has property "hours" need to check if place will be opened
+      if (point.opening_hours) {
+        if (
+          point.opening_hours.periods.length === 1 &&
+          !point.opening_hours.periods[0].open.hours
+        ) {
           timer = new Date(
-            new Date(start).getTime() + timeToFirstPoint * 60 * 1000
+            new Date(timer).getTime() + point.minsToSpend * 60 * 1000
           );
-          // if not the first point, add time from previous point to current from matrix
         } else {
-          timer = new Date(
-            new Date(timer).getTime() +
-              matrix[point.index][places[i - 1].index] * 60 * 1000
-          );
-        }
-        // if point has property "hours" need to check if place will be opened
-        if (point.opening_hours) {
           // find day when you will come to the point
           // O - Sunday, 1 - Monday, 2 - Tuesday, 3 - Wednesday, 4 - Thursday, 5 - Friday, 6 - Saturday
           let idxDay = timer.getDay();
@@ -30,39 +38,49 @@ export function checkOpenHours(routes, start, matrix) {
           // check if there is schedule on this day, if not  -> it's closed
           if (point.opening_hours.periods[idxDayOfPlace]) {
             let opening = point.opening_hours.periods[idxDayOfPlace].open.hours;
-            let closing = point.opening_hours.periods[idxDayOfPlace].close.hours;
+            let closing =
+              point.opening_hours.periods[idxDayOfPlace].close.hours;
             // DON'T COUNT MINUTES OF OPENING FOR NOW !!!!!
-            let arrivalHours = timer.getHours();
-            // let arrivalMinutes = timer.getMinutes();
-            // check if place is opened at the time of arriving to the point
-            if (arrivalHours >= opening && arrivalHours < closing) {
+            // if place opened 24 hours (open - 0 and close - 0)
+            if (opening === 0 && closing === 0) {
               timer = new Date(
                 new Date(timer).getTime() + point.minsToSpend * 60 * 1000
               );
-              let leavingHours = timer.getHours();
-              // check if the place is still opened at the time of leaving of the place
-              if (leavingHours >= closing) {
-                  // add alert
-                  routes[j][i].alert = `${routes[j][i].name} might be closed!`
-              }
             } else {
+              if (opening === 0) opening = 24
+              if (closing === 0) closing = 24
+              let arrivalHours = timer.getHours();
+              // let arrivalMinutes = timer.getMinutes();
+              // check if place is opened at the time of arriving to the point
+              if (arrivalHours >= opening && arrivalHours < closing) {
+                timer = new Date(
+                  new Date(timer).getTime() + point.minsToSpend * 60 * 1000
+                );
+                let leavingHours = timer.getHours();
+                // check if the place is still opened at the time of leaving of the place
+                if (leavingHours >= closing) {
+                  // add alert
+                  routes[j][i].alert = `${routes[j][i].name} might be closed!`;
+                }
+              } else {
                 // if place will be still/ already closed at the time of arrival
-              // add alert 
-              routes[j][i].alert = `${routes[j][i].name} might be closed!`
+                // add alert
+                routes[j][i].alert = `${routes[j][i].name} might be closed!`;
+              }
             }
           } else {
-              // if place will be closed at this day
+            // if place will be closed at this day
             // add alert
-            routes[j][i].alert = `${routes[j][i].name} might be closed!`
+            routes[j][i].alert = `${routes[j][i].name} might be closed!`;
           }
-        } else {
-            // if there is no schedule for this place just continue count timer
-          timer = new Date(
-            new Date(timer).getTime() + point.minsToSpend * 60 * 1000
-          );
         }
+      } else {
+        // if there is no schedule for this place just continue count timer
+        timer = new Date(
+          new Date(timer).getTime() + point.minsToSpend * 60 * 1000
+        );
       }
     }
-    return routes
   }
-  
+  return routes;
+}

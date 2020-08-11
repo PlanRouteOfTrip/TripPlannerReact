@@ -1,7 +1,7 @@
 import React from "react";
 import TripResults from "./components/TripResults";
 import Form from "./components/Form";
-
+import Box from "@material-ui/core/Box";
 
 export default class App extends React.Component {
   constructor() {
@@ -18,15 +18,21 @@ export default class App extends React.Component {
     this.setState({ map: map });
   }
   render() {
+    const myStyle = {
+      width: 1000,
+      height: 800
+    }
     return (
-      <div className="container">
-        <div style={{height: 800, width: 1200}} id="map"></div>
-        <div className="form">
-          <Form map={this.state.map} />
-          <TripResults />
-        </div>
+      <div>
+        <Box display="flex" flexDirection="raw">
+          {/* <Box style={myStyle} id="map"></Box> */}
+          <Box style={myStyle} id="map"></Box>
+          <Box display="flex" flexDirection="column" id="form">
+            <Form map={this.state.map} />
+            <TripResults />
+          </Box>
+        </Box>
       </div>
     );
   }
 }
-

@@ -1,27 +1,42 @@
 import React from "react";
 import { removePlace } from "../store";
 import { connect } from "react-redux";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import RemoveCircleOutlineIcon from "@material-ui/icons/RemoveCircleOutline";
 
 const PlacesToVisit = (props) => {
   const places = props.places;
   const removePlace = props.removePlace;
 
   return (
-    <div>
+    <List dense>
       {places.map((place) => {
         return (
           //TBD: change key to place ID later
-          <div key={`marker${place.markerId}`}>
-                <p>
-              {place.name} - {place.formatted_address}{" "}
-            <button onClick={(e) => {
-              e.preventDefault()
-              removePlace(place.name, place.markerId)}}>X</button>
-            </p>
-          </div>
+          <ListItem key={`marker${place.markerId}`}>
+            <RemoveCircleOutlineIcon
+              onClick={(e) => {
+                e.preventDefault();
+                removePlace(place.name, place.markerId);
+              }}
+            />
+            <ListItemText>
+              {place.name} - {place.formatted_address}
+              {/* <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  removePlace(place.name, place.markerId);
+                }}
+              >
+                X
+              </button> */}
+            </ListItemText>
+          </ListItem>
         );
       })}
-    </div>
+    </List>
   );
 };
 
