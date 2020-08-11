@@ -2,7 +2,7 @@ import { getSetOfTheBest } from "./findBestSets";
 import { fillTravelTimes } from "./createTravelTimeMatrix";
 import {checkOpenHours} from './openHours'
 
-const createPossibleTrips = (points) => {
+export const createPossibleTrips = (points) => {
   const permutations = [];
 
   const permutate = (cur, rest) => {
@@ -62,7 +62,7 @@ export async function getSets(places, totalTripTime, startTime) {
   return finalSets;
 }
 
-const checkSet = (curSet, trip) => {
+export const checkSet = (curSet, trip) => {
   // to count times when trip not equal one of the sets from curSet
   let countOfFalse = 0;
 
