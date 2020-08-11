@@ -3,6 +3,9 @@ import { addPlace, addFinish, addStart, calculateOptions } from "../store";
 import { connect } from "react-redux";
 import PlacesToVisit from "./PlacesToVisit";
 import TextField from "@material-ui/core/TextField";
+import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 
 class Form extends React.Component {
   constructor(props) {
@@ -23,11 +26,12 @@ class Form extends React.Component {
         <h2>Create Your Trip:</h2>
         <form className="start">
           <h3>1. Starting Point:</h3>
-          <input
-            type="text"
-            name="startDay"
+          <TextField
             value={this.state.startPoint}
-            placeholder="Name or Address of your starting point"
+            label="Name or Address of your starting point"
+            variant="outlined"
+            fullWidth
+            margin="dense"
             onChange={(e) => this.setState({ startPoint: e.target.value })}
           />
           <br />
@@ -39,28 +43,31 @@ class Form extends React.Component {
                 shrink: true,
               }}
               value={this.state.startTime}
-              onChange={(e) => this.setState({startTime: e.target.value})}
+              onChange={(e) => this.setState({ startTime: e.target.value })}
             />
           </div>
-          <button
+          <Button
             type="submit"
-            id="addStart"
             onClick={(e) => {
               e.preventDefault();
-              this.props.addStart(this.state.startPoint, this.state.startTime, this.props.map);
+              this.props.addStart(
+                this.state.startPoint,
+                this.state.startTime,
+                this.props.map
+              );
             }}
           >
-            {" "}
             Set Start
-          </button>
+          </Button>
         </form>
         <form className="finish">
           <h3>2. Final Destination: </h3>
-          <input
-            type="text"
-            name="endPoint"
+          <TextField
             value={this.state.endPoint}
-            placeholder="Name or Address of your finish point"
+            label="Name or Address of your finish point"
+            variant="outlined"
+            fullWidth
+            margin="dense"
             onChange={(e) => this.setState({ endPoint: e.target.value })}
           />
           <br />
@@ -72,64 +79,79 @@ class Form extends React.Component {
                 shrink: true,
               }}
               value={this.state.endTime}
-              onChange={(e) => this.setState({endTime: e.target.value})}
+              onChange={(e) => this.setState({ endTime: e.target.value })}
             />
           </div>
-          <button
+          <Button
             type="submit"
-            id="addFinish"
             onClick={(e) => {
               e.preventDefault();
-              if (this.state.endPoint === "") this.setState({endPoint: this.state.startPoint})
-              this.props.addFinish(this.state.endPoint, this.state.endTime, this.props.map);
+              if (this.state.endPoint === "")
+                this.setState({ endPoint: this.state.startPoint });
+              this.props.addFinish(
+                this.state.endPoint,
+                this.state.endTime,
+                this.props.map
+              );
             }}
           >
             {" "}
             Set Finish{" "}
-          </button>
+          </Button>
         </form>
         <form className="locations">
           <h3>3. Places to visit:</h3>
           <PlacesToVisit />
-          <input
-            type="text"
-            name="curPoint"
-            placeholder="Name or Address of place"
+          <TextField
+            label="Name or Address of place"
+            variant="outlined"
+            fullWidth
+            margin="dense"
             value={this.state.curPoint}
             onChange={(e) => {
               this.setState({ curPoint: e.target.value });
             }}
           />
           <br />
-          <input
-            type="number"
-            name="curMinsToSpend"
-            placeholder="Time you plan to spend there in minutes"
+          <TextField
+            label="Time you plan to spend there in minutes"
+            variant="outlined"
+            fullWidth
+            margin="dense"
             value={this.state.curMinsToSpend}
-            onChange={e => this.setState({curMinsToSpend: e.target.value})}
-          /><br />
-          <button
+            onChange={(e) => this.setState({ curMinsToSpend: e.target.value })}
+          />
+          <br />
+          <Button
             type="submit"
-            id="addPoint"
             onClick={(e) => {
               e.preventDefault();
-              this.props.addPlace(this.state.curPoint, this.state.curMinsToSpend, this.props.map);
+              this.props.addPlace(
+                this.state.curPoint,
+                this.state.curMinsToSpend,
+                this.props.map
+              );
               this.setState({ curPoint: "", curMinsToSpend: "" });
             }}
           >
             Add place to the list
-          </button>
+          </Button>
         </form>
-        <button 
-          type="button" 
-          id="findTrips"
+        <Button
+          type="button"
           onClick={(e) => {
             e.preventDefault();
-            this.props.calculateOptions(this.props.startPoint, this.props.startTime, this.props.endPoint, this.props.endTime, this.props.places);
+            this.props.calculateOptions(
+              this.props.startPoint,
+              this.props.startTime,
+              this.props.endPoint,
+              this.props.endTime,
+              this.props.places
+            );
           }}
-          >
+        >
           4. Find best options of the trip
-        </button>
+        </Button>
       </div>
     );
   }
@@ -147,7 +169,10 @@ const mapDispatchToProps = (dispatch) => ({
   addPlace: (name, mins, map) => dispatch(addPlace(name, mins, map)),
   addStart: (place, time, map) => dispatch(addStart(place, time, map)),
   addFinish: (place, time, map) => dispatch(addFinish(place, time, map)),
-  calculateOptions: (startPoint, startTime, endPoint, endTime, places) => dispatch(calculateOptions(startPoint, startTime, endPoint, endTime, places)),
+  calculateOptions: (startPoint, startTime, endPoint, endTime, places) =>
+    dispatch(
+      calculateOptions(startPoint, startTime, endPoint, endTime, places)
+    ),
 });
 
 const ConnectedForm = connect(mapStateToProps, mapDispatchToProps)(Form);
