@@ -11,7 +11,7 @@ const PlacesToVisit = (props) => {
   const removePlace = props.removePlace;
 
   return (
-    <List dense>
+    <List dense style={{alignSelf: "center"}}>
       {places.map((place) => {
         return (
           //TBD: change key to place ID later

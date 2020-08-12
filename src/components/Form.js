@@ -25,20 +25,21 @@ class Form extends React.Component {
       <div>
         <h2>Create Your Trip:</h2>
         <form className="start">
-          <h3>1. Starting Point:</h3>
+          <div className="start1"> 
           <TextField
             value={this.state.startPoint}
             label="Name or Address of your starting point"
             variant="outlined"
-            fullWidth
+            style={{width: "60%", marginLeft: "20px", marginRight: "20px"}}
             margin="dense"
             onChange={(e) => this.setState({ startPoint: e.target.value })}
           />
           <br />
-          <div id="timeDate">
             <TextField
               id="datetime-start"
               type="datetime-local"
+              label="starting date and time"
+              style={{width: "40%", marginLeft: "20px", marginRight: "20px"}}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -46,8 +47,10 @@ class Form extends React.Component {
               onChange={(e) => this.setState({ startTime: e.target.value })}
             />
           </div>
+          <div id="button">
           <Button
-            type="submit"
+            // type="submit"
+            variant="outlined"
             onClick={(e) => {
               e.preventDefault();
               this.props.addStart(
@@ -59,22 +62,24 @@ class Form extends React.Component {
           >
             Set Start
           </Button>
+          </div>
         </form>
         <form className="finish">
-          <h3>2. Final Destination: </h3>
+          <div className="end1">
           <TextField
             value={this.state.endPoint}
             label="Name or Address of your finish point"
             variant="outlined"
-            fullWidth
+            style={{width: "60%", marginLeft: "20px", marginRight: "20px"}}
             margin="dense"
             onChange={(e) => this.setState({ endPoint: e.target.value })}
           />
           <br />
-          <div id="timeDate">
             <TextField
               id="datetime-end"
               type="datetime-local"
+              label="finish date and time"
+              style={{width: "40%", marginLeft: "20px", marginRight: "20px"}}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -82,8 +87,10 @@ class Form extends React.Component {
               onChange={(e) => this.setState({ endTime: e.target.value })}
             />
           </div>
+          <div id="button">
           <Button
-            type="submit"
+            // type="submit"
+            variant="outlined"
             onClick={(e) => {
               e.preventDefault();
               if (this.state.endPoint === "")
@@ -95,35 +102,37 @@ class Form extends React.Component {
               );
             }}
           >
-            {" "}
-            Set Finish{" "}
+            Set Finish
           </Button>
+          </div>
         </form>
         <form className="locations">
-          <h3>3. Places to visit:</h3>
-          <PlacesToVisit />
+          <h3 style={{alignSelf: "center"}}>Places to visit:</h3>
+          <PlacesToVisit/>
+          <div className="locations1">
           <TextField
             label="Name or Address of place"
             variant="outlined"
-            fullWidth
             margin="dense"
+            style={{width: "60%", marginLeft: "20px", marginRight: "20px"}}
             value={this.state.curPoint}
             onChange={(e) => {
               this.setState({ curPoint: e.target.value });
             }}
           />
-          <br />
           <TextField
-            label="Time you plan to spend there in minutes"
+            label="Time to spend in minutes"
             variant="outlined"
-            fullWidth
             margin="dense"
+            style={{width: "40%", marginLeft: "20px", marginRight: "20px"}}
             value={this.state.curMinsToSpend}
             onChange={(e) => this.setState({ curMinsToSpend: e.target.value })}
           />
-          <br />
+          </div>
+          <div id="button">
           <Button
-            type="submit"
+            // type="submit"
+            variant="outlined"
             onClick={(e) => {
               e.preventDefault();
               this.props.addPlace(
@@ -136,9 +145,12 @@ class Form extends React.Component {
           >
             Add place to the list
           </Button>
+          </div>
         </form>
+        <div id="button">
         <Button
-          type="button"
+          // type="button"
+          variant="outlined"
           onClick={(e) => {
             e.preventDefault();
             this.props.calculateOptions(
@@ -150,8 +162,9 @@ class Form extends React.Component {
             );
           }}
         >
-          4. Find best options of the trip
+          Find best options of the trip
         </Button>
+        </div>
       </div>
     );
   }

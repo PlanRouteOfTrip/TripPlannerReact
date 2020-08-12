@@ -10,7 +10,7 @@ const TripResults = (props) => {
   const setOfTheBest = props.setOfTheBest;
 
   return (
-    <List>
+    <List style={{alignSelf: "center"}}>
       {setOfTheBest.map((tripOption, i) => {
         return (
           <ListItem key={`tripoption${i}`}>

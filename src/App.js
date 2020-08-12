@@ -19,7 +19,7 @@ export default class App extends React.Component {
   }
   render() {
     const myStyle = {
-      width: 1000,
+      width: 700,
       height: 800
     }
     return (
