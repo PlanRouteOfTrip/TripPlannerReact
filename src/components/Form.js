@@ -3,9 +3,7 @@ import { addPlace, addFinish, addStart, calculateOptions } from "../store";
 import { connect } from "react-redux";
 import PlacesToVisit from "./PlacesToVisit";
 import TextField from "@material-ui/core/TextField";
-import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
 
 class Form extends React.Component {
   constructor(props) {
@@ -24,30 +22,32 @@ class Form extends React.Component {
     return (
       <div>
         <h2>Create Your Trip:</h2>
-        <form className="start">
-          <h3>1. Starting Point:</h3>
+        <form className="startForm">
+          <div className="start"> 
           <TextField
             value={this.state.startPoint}
-            label="Name or Address of your starting point"
+            label="Name or Address of your starting point *"
             variant="outlined"
-            fullWidth
+            style={{width: "50%", marginLeft: "20px", marginRight: "20px"}}
             margin="dense"
             onChange={(e) => this.setState({ startPoint: e.target.value })}
           />
           <br />
-          <div id="timeDate">
             <TextField
               id="datetime-start"
               type="datetime-local"
+              label="starting date and time *"
+              style={{width: "30%", marginLeft: "20px", marginRight: "20px"}}
               InputLabelProps={{
                 shrink: true,
               }}
               value={this.state.startTime}
               onChange={(e) => this.setState({ startTime: e.target.value })}
             />
-          </div>
-          <Button
-            type="submit"
+          <div id="button">
+          {(this.state.startPoint.length && this.state.startTime.length) ? <Button
+            variant="contained"
+            color="primary"
             onClick={(e) => {
               e.preventDefault();
               this.props.addStart(
@@ -57,33 +57,40 @@ class Form extends React.Component {
               );
             }}
           >
-            Set Start
-          </Button>
+            Set
+          </Button> :
+          <Button variant="contained" disabled>Set</Button> 
+          }
+          </div>
+          </div>
         </form>
-        <form className="finish">
-          <h3>2. Final Destination: </h3>
+        <form className="finishForm">
+          <div className="finish">
           <TextField
             value={this.state.endPoint}
             label="Name or Address of your finish point"
             variant="outlined"
-            fullWidth
+            style={{width: "50%", marginLeft: "20px", marginRight: "20px"}}
             margin="dense"
             onChange={(e) => this.setState({ endPoint: e.target.value })}
           />
           <br />
-          <div id="timeDate">
             <TextField
               id="datetime-end"
               type="datetime-local"
+              label="finish date and time *"
+              style={{width: "30%", marginLeft: "20px", marginRight: "20px"}}
               InputLabelProps={{
                 shrink: true,
               }}
               value={this.state.endTime}
               onChange={(e) => this.setState({ endTime: e.target.value })}
             />
-          </div>
-          <Button
-            type="submit"
+          <div id="button">
+          {(this.state.endTime.length) ? 
+            <Button
+            variant="contained"
+            color="primary"
             onClick={(e) => {
               e.preventDefault();
               if (this.state.endPoint === "")
@@ -95,35 +102,40 @@ class Form extends React.Component {
               );
             }}
           >
-            {" "}
-            Set Finish{" "}
-          </Button>
+            Set
+          </Button> : 
+          <Button variant="contained" disabled>Set</Button>
+          }
+          </div>
+          </div>
         </form>
-        <form className="locations">
-          <h3>3. Places to visit:</h3>
-          <PlacesToVisit />
+        <form className="locationsForm">
+          <h3 style={{alignSelf: "center"}}>Places to visit:</h3>
+          <PlacesToVisit/>
+          <div className="locations">
           <TextField
-            label="Name or Address of place"
+            label="Name or Address of place *"
             variant="outlined"
-            fullWidth
             margin="dense"
+            style={{width: "50%", marginLeft: "20px", marginRight: "20px"}}
             value={this.state.curPoint}
             onChange={(e) => {
               this.setState({ curPoint: e.target.value });
             }}
           />
-          <br />
           <TextField
-            label="Time you plan to spend there in minutes"
+            label="Time to spend in minutes *"
             variant="outlined"
-            fullWidth
             margin="dense"
+            style={{width: "30%", marginLeft: "20px", marginRight: "20px"}}
             value={this.state.curMinsToSpend}
             onChange={(e) => this.setState({ curMinsToSpend: e.target.value })}
           />
-          <br />
-          <Button
-            type="submit"
+          <div id="button">
+          {(this.state.curPoint.length && this.state.curMinsToSpend.length) ? 
+            <Button
+            variant="contained"
+            color="primary"
             onClick={(e) => {
               e.preventDefault();
               this.props.addPlace(
@@ -134,11 +146,17 @@ class Form extends React.Component {
               this.setState({ curPoint: "", curMinsToSpend: "" });
             }}
           >
-            Add place to the list
-          </Button>
+            Add
+          </Button> :
+          <Button variant="contained" disabled>Add</Button>
+          }
+          </div>
+          </div>
         </form>
+        <div id="button">
         <Button
-          type="button"
+          variant="contained"
+          color="secondary"
           onClick={(e) => {
             e.preventDefault();
             this.props.calculateOptions(
@@ -150,8 +168,9 @@ class Form extends React.Component {
             );
           }}
         >
-          4. Find best options of the trip
+          Find best options of the trip
         </Button>
+        </div>
       </div>
     );
   }

@@ -19,13 +19,12 @@ export default class App extends React.Component {
   }
   render() {
     const myStyle = {
-      width: 1000,
+      width: 700,
       height: 800
     }
     return (
       <div>
         <Box display="flex" flexDirection="raw">
-          {/* <Box style={myStyle} id="map"></Box> */}
           <Box style={myStyle} id="map"></Box>
           <Box display="flex" flexDirection="column" id="form">
             <Form map={this.state.map} />
