@@ -3,9 +3,7 @@ import { addPlace, addFinish, addStart, calculateOptions } from "../store";
 import { connect } from "react-redux";
 import PlacesToVisit from "./PlacesToVisit";
 import TextField from "@material-ui/core/TextField";
-import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
 
 class Form extends React.Component {
   constructor(props) {
@@ -29,8 +27,8 @@ class Form extends React.Component {
           <TextField
             value={this.state.startPoint}
             label="Name or Address of your starting point *"
-            // variant="outlined"
-            style={{width: "60%", marginLeft: "20px", marginRight: "20px"}}
+            variant="outlined"
+            style={{width: "50%", marginLeft: "20px", marginRight: "20px"}}
             margin="dense"
             onChange={(e) => this.setState({ startPoint: e.target.value })}
           />
@@ -39,16 +37,15 @@ class Form extends React.Component {
               id="datetime-start"
               type="datetime-local"
               label="starting date and time *"
-              style={{width: "40%", marginLeft: "20px", marginRight: "20px"}}
+              style={{width: "30%", marginLeft: "20px", marginRight: "20px"}}
               InputLabelProps={{
                 shrink: true,
               }}
               value={this.state.startTime}
               onChange={(e) => this.setState({ startTime: e.target.value })}
             />
-          </div>
           <div id="button">
-          <Button
+          {(this.state.startPoint.length && this.state.startTime.length) ? <Button
             variant="contained"
             color="primary"
             onClick={(e) => {
@@ -60,8 +57,11 @@ class Form extends React.Component {
               );
             }}
           >
-            Set Start
-          </Button>
+            Set
+          </Button> :
+          <Button variant="contained" disabled>Set</Button> 
+          }
+          </div>
           </div>
         </form>
         <form className="finishForm">
@@ -69,8 +69,8 @@ class Form extends React.Component {
           <TextField
             value={this.state.endPoint}
             label="Name or Address of your finish point"
-            // variant="outlined"
-            style={{width: "60%", marginLeft: "20px", marginRight: "20px"}}
+            variant="outlined"
+            style={{width: "50%", marginLeft: "20px", marginRight: "20px"}}
             margin="dense"
             onChange={(e) => this.setState({ endPoint: e.target.value })}
           />
@@ -79,16 +79,16 @@ class Form extends React.Component {
               id="datetime-end"
               type="datetime-local"
               label="finish date and time *"
-              style={{width: "40%", marginLeft: "20px", marginRight: "20px"}}
+              style={{width: "30%", marginLeft: "20px", marginRight: "20px"}}
               InputLabelProps={{
                 shrink: true,
               }}
               value={this.state.endTime}
               onChange={(e) => this.setState({ endTime: e.target.value })}
             />
-          </div>
           <div id="button">
-          <Button
+          {(this.state.endTime.length) ? 
+            <Button
             variant="contained"
             color="primary"
             onClick={(e) => {
@@ -102,8 +102,11 @@ class Form extends React.Component {
               );
             }}
           >
-            Set Finish
-          </Button>
+            Set
+          </Button> : 
+          <Button variant="contained" disabled>Set</Button>
+          }
+          </div>
           </div>
         </form>
         <form className="locationsForm">
@@ -112,9 +115,9 @@ class Form extends React.Component {
           <div className="locations">
           <TextField
             label="Name or Address of place *"
-            // variant="outlined"
+            variant="outlined"
             margin="dense"
-            style={{width: "60%", marginLeft: "20px", marginRight: "20px"}}
+            style={{width: "50%", marginLeft: "20px", marginRight: "20px"}}
             value={this.state.curPoint}
             onChange={(e) => {
               this.setState({ curPoint: e.target.value });
@@ -122,15 +125,15 @@ class Form extends React.Component {
           />
           <TextField
             label="Time to spend in minutes *"
-            // variant="outlined"
+            variant="outlined"
             margin="dense"
-            style={{width: "40%", marginLeft: "20px", marginRight: "20px"}}
+            style={{width: "30%", marginLeft: "20px", marginRight: "20px"}}
             value={this.state.curMinsToSpend}
             onChange={(e) => this.setState({ curMinsToSpend: e.target.value })}
           />
-          </div>
           <div id="button">
-          <Button
+          {(this.state.curPoint.length && this.state.curMinsToSpend.length) ? 
+            <Button
             variant="contained"
             color="primary"
             onClick={(e) => {
@@ -143,8 +146,11 @@ class Form extends React.Component {
               this.setState({ curPoint: "", curMinsToSpend: "" });
             }}
           >
-            Add place to the list
-          </Button>
+            Add
+          </Button> :
+          <Button variant="contained" disabled>Add</Button>
+          }
+          </div>
           </div>
         </form>
         <div id="button">

@@ -17,10 +17,9 @@ const TripResults = (props) => {
             <ListItemText>
             
               <p><DirectionsCarIcon />
-                TRIP OPTION {i + 1}: total trip time -{" "}
-                {tripOption[tripOption.length - 1]}
+                TRIP OPTION {i + 1}: total trip time -
+                {tripOption[tripOption.length - 1]} mins
               </p>
-              <p>TRAVEL FROM START: {tripOption[0].timeFromStart} mins</p>
               <List>
               {tripOption.map((place, j) => {
                 if (typeof place === "object") {
@@ -37,10 +36,6 @@ const TripResults = (props) => {
               })}
               </List>
               <br />
-              <p>
-                TRAVEL TO FINISH:{" "}
-                {tripOption[tripOption.length - 2].timeToFinish} mins
-              </p>
             </ListItemText>
           </ListItem>
         );

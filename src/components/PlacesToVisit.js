@@ -24,14 +24,6 @@ const PlacesToVisit = (props) => {
             />
             <ListItemText>
               {place.name} - {place.formatted_address}
-              {/* <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  removePlace(place.name, place.markerId);
-                }}
-              >
-                X
-              </button> */}
             </ListItemText>
           </ListItem>
         );
