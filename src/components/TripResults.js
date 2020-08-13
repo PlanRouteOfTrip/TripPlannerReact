@@ -15,8 +15,8 @@ const TripResults = (props) => {
         return (
           <ListItem key={`tripoption${i}`}>
             <ListItemText>
-            <DirectionsCarIcon />
-              <p>
+            
+              <p><DirectionsCarIcon />
                 TRIP OPTION {i + 1}: total trip time -{" "}
                 {tripOption[tripOption.length - 1]}
               </p>

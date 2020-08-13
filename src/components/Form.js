@@ -24,12 +24,12 @@ class Form extends React.Component {
     return (
       <div>
         <h2>Create Your Trip:</h2>
-        <form className="start">
-          <div className="start1"> 
+        <form className="startForm">
+          <div className="start"> 
           <TextField
             value={this.state.startPoint}
-            label="Name or Address of your starting point"
-            variant="outlined"
+            label="Name or Address of your starting point *"
+            // variant="outlined"
             style={{width: "60%", marginLeft: "20px", marginRight: "20px"}}
             margin="dense"
             onChange={(e) => this.setState({ startPoint: e.target.value })}
@@ -38,7 +38,7 @@ class Form extends React.Component {
             <TextField
               id="datetime-start"
               type="datetime-local"
-              label="starting date and time"
+              label="starting date and time *"
               style={{width: "40%", marginLeft: "20px", marginRight: "20px"}}
               InputLabelProps={{
                 shrink: true,
@@ -49,8 +49,8 @@ class Form extends React.Component {
           </div>
           <div id="button">
           <Button
-            // type="submit"
-            variant="outlined"
+            variant="contained"
+            color="primary"
             onClick={(e) => {
               e.preventDefault();
               this.props.addStart(
@@ -64,12 +64,12 @@ class Form extends React.Component {
           </Button>
           </div>
         </form>
-        <form className="finish">
-          <div className="end1">
+        <form className="finishForm">
+          <div className="finish">
           <TextField
             value={this.state.endPoint}
             label="Name or Address of your finish point"
-            variant="outlined"
+            // variant="outlined"
             style={{width: "60%", marginLeft: "20px", marginRight: "20px"}}
             margin="dense"
             onChange={(e) => this.setState({ endPoint: e.target.value })}
@@ -78,7 +78,7 @@ class Form extends React.Component {
             <TextField
               id="datetime-end"
               type="datetime-local"
-              label="finish date and time"
+              label="finish date and time *"
               style={{width: "40%", marginLeft: "20px", marginRight: "20px"}}
               InputLabelProps={{
                 shrink: true,
@@ -89,8 +89,8 @@ class Form extends React.Component {
           </div>
           <div id="button">
           <Button
-            // type="submit"
-            variant="outlined"
+            variant="contained"
+            color="primary"
             onClick={(e) => {
               e.preventDefault();
               if (this.state.endPoint === "")
@@ -106,13 +106,13 @@ class Form extends React.Component {
           </Button>
           </div>
         </form>
-        <form className="locations">
+        <form className="locationsForm">
           <h3 style={{alignSelf: "center"}}>Places to visit:</h3>
           <PlacesToVisit/>
-          <div className="locations1">
+          <div className="locations">
           <TextField
-            label="Name or Address of place"
-            variant="outlined"
+            label="Name or Address of place *"
+            // variant="outlined"
             margin="dense"
             style={{width: "60%", marginLeft: "20px", marginRight: "20px"}}
             value={this.state.curPoint}
@@ -121,8 +121,8 @@ class Form extends React.Component {
             }}
           />
           <TextField
-            label="Time to spend in minutes"
-            variant="outlined"
+            label="Time to spend in minutes *"
+            // variant="outlined"
             margin="dense"
             style={{width: "40%", marginLeft: "20px", marginRight: "20px"}}
             value={this.state.curMinsToSpend}
@@ -131,8 +131,8 @@ class Form extends React.Component {
           </div>
           <div id="button">
           <Button
-            // type="submit"
-            variant="outlined"
+            variant="contained"
+            color="primary"
             onClick={(e) => {
               e.preventDefault();
               this.props.addPlace(
@@ -149,8 +149,8 @@ class Form extends React.Component {
         </form>
         <div id="button">
         <Button
-          // type="button"
-          variant="outlined"
+          variant="contained"
+          color="secondary"
           onClick={(e) => {
             e.preventDefault();
             this.props.calculateOptions(

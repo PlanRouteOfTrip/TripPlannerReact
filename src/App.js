@@ -25,7 +25,6 @@ export default class App extends React.Component {
     return (
       <div>
         <Box display="flex" flexDirection="raw">
-          {/* <Box style={myStyle} id="map"></Box> */}
           <Box style={myStyle} id="map"></Box>
           <Box display="flex" flexDirection="column" id="form">
             <Form map={this.state.map} />
