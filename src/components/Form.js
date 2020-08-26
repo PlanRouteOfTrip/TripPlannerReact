@@ -3,6 +3,7 @@ import { addPlace, addFinish, addStart, calculateOptions } from "../store";
 import { connect } from "react-redux";
 import PlacesToVisit from "./PlacesToVisit";
 import TextField from "@material-ui/core/TextField";
+import FormHelperText from '@material-ui/core/FormHelperText';
 import Button from '@material-ui/core/Button';
 
 class Form extends React.Component {
@@ -26,18 +27,21 @@ class Form extends React.Component {
           <div className="start"> 
           <TextField
             value={this.state.startPoint}
-            label="Name or Address of your starting point *"
+            helperText="Name or address of your starting point *"
             variant="outlined"
-            style={{width: "50%", marginLeft: "20px", marginRight: "20px"}}
             margin="dense"
+            // style={{width: "50%", marginLeft: "20px", marginRight: "20px"}}
             onChange={(e) => this.setState({ startPoint: e.target.value })}
           />
-          <br />
+          {/* <br /> */}
             <TextField
               id="datetime-start"
               type="datetime-local"
-              label="starting date and time *"
-              style={{width: "30%", marginLeft: "20px", marginRight: "20px"}}
+              helperText="starting date and time *"
+              variant="outlined"
+              size="small"
+              margin="dense"
+              // style={{width: "30%", marginLeft: "20px", marginRight: "20px"}}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -46,7 +50,7 @@ class Form extends React.Component {
             />
           <div id="button">
           {(this.state.startPoint.length && this.state.startTime.length) ? <Button
-            variant="contained"
+            variant="outlined"
             color="primary"
             onClick={(e) => {
               e.preventDefault();
