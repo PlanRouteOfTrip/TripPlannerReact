@@ -65812,7 +65812,7 @@ var Form = /*#__PURE__*/function (_React$Component) {
         }
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TextField__WEBPACK_IMPORTED_MODULE_4__["default"], {
         value: this.state.startPoint,
-        helperText: "Name or address of your starting point",
+        helperText: "Name or address of your starting point *",
         variant: "outlined",
         margin: "dense",
         style: {
