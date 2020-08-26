@@ -27,7 +27,7 @@ class Form extends React.Component {
           <div className="start" style={{alignItems: "flex-start"}}> 
           <TextField
             value={this.state.startPoint}
-            helperText="Name or address of your starting point"
+            helperText="Name or address of your starting point *"
             variant="outlined"
             margin="dense"
             style={{width: "50%", marginLeft: "20px", marginRight: "20px"}}
